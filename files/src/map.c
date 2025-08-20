@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: argharag <argharag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 21:09:44 by argharag          #+#    #+#             */
-/*   Updated: 2025/04/28 20:46:34 by argharag         ###   ########.fr       */
+/*   Updated: 2025/08/20 20:52:43 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,126 @@ void	find_exit(t_data *data, int y, int x, int coin_count)
 			* x, 32 * y);
 }
 
+// void	my_mlx_pixel_put(t_data *px, int x, int y, int color)
+// {
+// 	char	*dst;
+
+// 	dst = px->addr + (y * px->line_length + x * (px->bits_by_pixel / 8));
+// 	*(unsigned int *)dst = color;
+// }
+
+void	draw_on_image(t_data *data)
+{
+	float	x;
+	float	y;
+	int	color;
+	int	w;
+	int	h;
+	float	i;
+
+	w = 1900;
+	x = w;
+	h = 800;
+	i = 0;
+	while (x-- > 1200)
+	{
+		y = h - i;
+		if (y <= i)
+			break;
+		while (y-- > i)
+		{
+			// color = (x * 255) / w + ((((w - x) * 255) / w) << 16) + (((y * 255)
+			// 			/ h) << 8);
+			color = 120;
+			mlx_pixel_put(data->mlx, data->win, x, y, color);
+		}
+		i += 0.5;
+		printf("x = %f, y = %f, i = %f\n", x, y, i);
+	}
+	while (x-- > 800)
+	{
+		y = h - i;
+		if (y < 300)
+			break;
+		while (y-- > i)
+		{
+			// color = (x * 255) / w + ((((w - x) * 255) / w) << 16) + (((y * 255)
+			// 			/ h) << 8);
+			color = 56;
+			mlx_pixel_put(data->mlx, data->win, x, y, color);
+		}
+		// i += 0.5;
+	}
+	printf("x = %f, y = %f, i = %f", x, y, i);
+	
+	while (x--)
+	{
+		y = h - i;
+		if (y <= 0)
+			break;
+		while (y-- > i)
+		{
+			// color = (x * 255) / w + ((((w - x) * 255) / w) << 16) + (((y * 255)
+			// 			/ h) << 8);
+			color = 120;
+			mlx_pixel_put(data->mlx, data->win, x, y, color);
+		}
+		i -= 0.5;
+	}
+	printf("x = %f, y = %f, i = %f", x, y, i);
+	// while (y < 30)
+	// {
+	// 	color = (x * 255) / w + ((((w - x) * 255) / w) << 16) + (((y * 255)
+					// / h) << 8);
+	// 	mlx_pixel_put(data->mlx, data->win, x, y, color);
+	// 	y++;
+	// }
+	// while (y < 40)
+	// {
+	// 	color = (x * 255) / w + ((((w - x) * 255) / w) << 16) + (((y * 255)
+					// / h) << 8);
+	// 	mlx_pixel_put(data->mlx, data->win, x, y, color);
+	// 	y++;
+	// }
+	// while (y < 50)
+	// {
+	// 	color = (x * 255) / w + ((((w - x) * 255) / w) << 16) + (((y * 255)
+					// / h) << 8);
+	// 	mlx_pixel_put(data->mlx, data->win, x, y, color);
+	// 	y++;
+	// }
+}
+
 void	create_map(t_data *data, t_mapdata *mp)
 {
 	int	i;
 	int	j;
 
 	i = -1;
+	j = 450;
+	(void)mp;
+	// while (i++ < j)
+	// {
+		draw_on_image(data);
+	// }
 	all_imgs(data, &(data->map_img), 1);
-	while (++i < mp->map_y)
-	{
-		j = -1;
-		while (++j < mp->map_x)
-		{
-			if ((mp->mapdata)[i][j] == '1')
-				A(data->mlx, data->win, data->map_img.wall, 32 * j, 32 * i);
-			else if ((mp->mapdata)[i][j] == '0')
-				A(data->mlx, data->win, data->map_img.item, 32 * j, 32 * i);
-			else if ((mp->mapdata)[i][j] == 'P')
-				A(data->mlx, data->win, data->map_img.player, 32 * j, 32 * i);
-			else if ((mp->mapdata)[i][j] == 'E')
-				find_exit(data, i, j, mp->coin_count);
-			else if ((mp->mapdata)[i][j] == 'C')
-				A(data->mlx, data->win, data->map_img.collect, 32 * j, 32 * i);
-		}
-	}
+	// mlx_put_image_to_window(data->mlx, data->win, data->map_img.wall, 0, 0);
+	// while (++i < mp->map_y)
+	// {
+	// 	j = -1;
+	// 	while (++j < mp->map_x)
+	// 	{
+	// 		if ((mp->mapdata)[i][j] == '1')
+	// 			A(data->mlx, data->win, data->map_img.wall, 32 * j, 32 * i);
+	// 		else if ((mp->mapdata)[i][j] == '0')
+	// 			A(data->mlx, data->win, data->map_img.item, 32 * j, 32 * i);
+	// 		else if ((mp->mapdata)[i][j] == 'P')
+	// 			A(data->mlx, data->win, data->map_img.player, 32 * j, 32 * i);
+	// 		else if ((mp->mapdata)[i][j] == 'E')
+	// 			find_exit(data, i, j, mp->coin_count);
+	// 		else if ((mp->mapdata)[i][j] == 'C')
+	// 			A(data->mlx, data->win, data->map_img.collect, 32 * j, 32 * i);
+	// 	}
+	// }
 	destroy_imgs(data);
 }
