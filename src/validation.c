@@ -124,6 +124,8 @@ int	validation(char *argv, t_mapdata *player)
 	player->mapdata = map_create(argv, count);
 	if (!player->mapdata)
 		return (-1);
+	if (copy_map(player))
+		return (-1);
 	if (find_player(player))
 		return (-1);
     return 0;

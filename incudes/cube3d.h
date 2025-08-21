@@ -28,7 +28,7 @@ typedef struct s_mapdata
 }			t_mapdata;
 
 void		ft_putstr_fd(char *s, int fd);
-void		copy_map(t_mapdata *map);
+int			copy_map(t_mapdata *map);
 void		free_str(char **str, int count);
 void		my_free(char *str);
 int			validation(char *argv, t_mapdata *player);
