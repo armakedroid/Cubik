@@ -40,28 +40,18 @@ int	main(int argc, char **argv)
 	t_mapdata arg;
 
 	if (argc != 2)
-		return (ft_putstr_fd("wrong argument number", 2), 1);
+		return (ft_putstr_fd("Error\nWrong argument number\n", 2), 1);
 	i = validation(argv[1], &arg);
 	if (i == -1)
-		return (ft_putstr_fd("error\n", 2), 1);
-
-	// arg.mapdata = {
-	// 	"1111111111111111",
-	// 	"1000000001001101",
-	// 	"1001000000000001",
-	// 	"1101011011110111",
-	// 	"1101011111000011",
-	// 	"1000000000011011",
-	// 	"1101110011000011",
-	// 	"1111111111111111"};
-
-	// arg.mlx = mlx_init();
-	// if (!arg.mlx)
-	// 	return (1);
-	// arg.width = 1920;
-	// arg.height = 1080;
-	// arg.win = mlx_new_window(arg.mlx, arg.width, arg.height, "Cube3D");
-	// mlx_hook(arg.win, 17, 0, win_cl, &arg);
-	// mlx_hook(arg.win, 2, 1L << 0, win_close, &arg);
-	// mlx_loop(arg.mlx);
+		return (ft_putstr_fd("Error\n", 2), 1);
+	arg.mlx = mlx_init();
+	if (!arg.mlx)
+		return (1);
+	arg.width = 1920;
+	arg.height = 1080;
+	arg.win = mlx_new_window(arg.mlx, arg.width, arg.height, "Cube3D");
+	create_map(&arg);
+	mlx_hook(arg.win, 17, 0, win_cl, &arg);
+	mlx_hook(arg.win, 2, 1L << 0, win_close, &arg);
+	mlx_loop(arg.mlx);
 }

@@ -24,10 +24,10 @@ void	go_right(t_mapdata *arg)
 	return ;
 }
 
-void	rot_left(t_mapdata *data, double rotSpeed)
+void	rot_left(t_mapdata *data, int rotSpeed)
 {
-	double	oldDirX;
-	double	oldPlaneX;
+	int	oldDirX;
+	int	oldPlaneX;
 
 	oldDirX = data->dirX;
 	oldPlaneX = data->planeX;
@@ -37,10 +37,10 @@ void	rot_left(t_mapdata *data, double rotSpeed)
 	data->planeY = oldPlaneX * sin(rotSpeed) + data->planeY * cos(rotSpeed);
 }
 
-void	rot_right(t_mapdata *data, double rotSpeed)
+void	rot_right(t_mapdata *data, int rotSpeed)
 {
-	double	oldDirX;
-	double	oldPlaneX;
+	int	oldDirX;
+	int	oldPlaneX;
 
 	oldDirX = data->dirX;
 	oldPlaneX = data->planeX;
