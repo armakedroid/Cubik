@@ -160,6 +160,18 @@ int	check_game_com(char **map, int x, int y)
 	return (1);
 }
 
+// int	f_map(char **map)
+// {
+// 	int a;
+// 	int b;
+
+// 	a = 0;
+// 	while (map[a])
+// 	{
+// 		b = 0;
+// 		while (map[a][b])
+// 		{
+// }
 
 int all_check(char **map)
 {
@@ -200,11 +212,13 @@ int	validation(char *argv, t_mapdata *player)
 		return (-1);
 	if(copy_map1(player))
 		return (-1);
-	if(!check_game_com(player->c_map, player->ply_x, player->ply_y))
-		return (-1);
 	print_map(player->c_map);
+	//if (!f_map(player->c_map))
+	//	return (-1);
+	//if(check_game_com(player->c_map, player->ply_x, player->ply_y))
+	//	return (-1);
 	//if (all_check(player->c_map))
 	//	return (-1);
-	print_map(player->original_map);
+	//print_map(player->c_map);
 	return (0);
 }

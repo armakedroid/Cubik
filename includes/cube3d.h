@@ -32,6 +32,7 @@ typedef struct s_mapdata
 {
 	t_img_it	img_it[4];
 	void		*mlx;
+	int			max_row;
 	void		*win;
 	int			height;
 	int			width;
@@ -39,6 +40,7 @@ typedef struct s_mapdata
 	int			ply_x;
 	int			ply_y;
 	char		**mapdata;
+	char 		**c_map;
 	char		**original_map;
 	int			map_x;
 	int			map_y;
@@ -65,6 +67,7 @@ void			print_map(char **map);
 
 void			ft_putstr_fd(char *s, int fd);
 int				copy_map(t_mapdata *map);
+int				copy_map1(t_mapdata *map);
 void			free_str(char **str, int count);
 void			my_free(char *str);
 int				validation(char *argv, t_mapdata *player);
@@ -72,12 +75,12 @@ int				find_player(t_mapdata *map);
 char			**map_create(char *argv, int count, t_mapdata *data);
 int				count_av(char *argv, t_mapdata **map);
 int				check_av(char *argv);
-void			go_forward(t_mapdata *arg);
-void			go_back(t_mapdata *arg);
-void			go_left(t_mapdata *arg);
-void			go_right(t_mapdata *arg);
-void			rot_left(t_mapdata *data, int rotSpeed);
-void			rot_right(t_mapdata *data, int rotSpeed);
+// void			go_forward(t_mapdata *arg);
+// void			go_back(t_mapdata *arg);
+// void			go_left(t_mapdata *arg);
+// void			go_right(t_mapdata *arg);
+// void			rot_left(t_mapdata *data, int rotSpeed);
+// void			rot_right(t_mapdata *data, int rotSpeed);
 void			create_map(t_mapdata *data);
 
 #endif

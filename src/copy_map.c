@@ -36,3 +36,51 @@ int	copy_map(t_mapdata *map)
 	map->original_map[j] = NULL;
 	return (0);
 }
+
+int	copy_map1(t_mapdata *map)
+{
+	int	i;
+	int	j;
+	int	a;
+	int	rows;
+	int	w = 0;
+	int h = 0;
+	map->max_row = 0;
+	while (map->original_map[w])
+	{
+		h = ft_strlen(map->original_map[w]);
+		if (h  > map->max_row)
+			map->max_row = h;
+		//printf("%d\n", map->max_row);
+		w++;
+	}
+	rows = 0;
+	while (map->mapdata[rows])
+		rows++;
+	map->c_map = (char **)malloc(sizeof(char *) * (rows - 8 + 1));
+	if (!map->c_map)
+		return (1);
+	i = 9;
+	j = 0;
+	while (map->mapdata[i])
+	{
+		map->c_map[j] = (char *)malloc(sizeof(char) * (map->max_row + 1));
+		if (!map->c_map[j])
+			return (1);
+		a = 0;
+		while (a < map->max_row)
+		{
+			if (map->mapdata[i][a])
+				map->c_map[j][a] = map->mapdata[i][a];
+			else
+				map->c_map[j][a] = 'W';
+			a++;
+		}
+		map->c_map[j][a] = '\0';
+		j++;
+		i++;
+	}
+	map->c_map[j] = NULL;
+	return (0);
+}
+
