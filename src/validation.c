@@ -53,13 +53,13 @@ char	**map_create(char *argv, int count, t_mapdata *data)
 	int		fd;
 	char	**tmp;
 	char	*line;
-	char	*str;
-	int		s;
-	int		l;
+	// char	*str;
+	// int		s;
+	// int		l;
 
 	i = -1;
-	l = 0;
-	str = NULL;
+	// l = 0;
+	// str = NULL;
 	tmp = (char **)malloc(sizeof(char *) * count);
 	if (!tmp)
 		return (NULL);
@@ -87,7 +87,7 @@ char	**map_create(char *argv, int count, t_mapdata *data)
 				data->SO_line = i;
 			else if (tmp[i][0] == 'E')
 				data->EA_line = i;
-			s = 3;
+			// s = 3;
 			// while (tmp[i][s])
 			// 	str[l++] = tmp[i][s++];
 			// if (!access(str, F_OK))
@@ -99,7 +99,7 @@ char	**map_create(char *argv, int count, t_mapdata *data)
 				data->F_line = i;
 			else
 				data->C_line = i;
-			s = 2;
+			// s = 2;
 			// while (tmp[i][s])
 			// 	str[l++] = tmp[i][s++];
 			// if (!access(str, F_OK))
@@ -136,42 +136,50 @@ int	find_player(t_mapdata *map)
 	}
 	return (1);
 }
-int	check_game_com(char **map, int x, int y)
+int	check_game_com(t_mapdata *map)
 {
-	int	rows;
-	int	cols;
+	int	i;
+	int	j;
 
-	rows = 0;
-	while (map[rows])
-		rows++;
-	cols = 0;
-	while (map[0][cols])
-		cols++;
-	if (x <= 0 || y <= 0 || y >= rows - 1 || x >= cols - 1)
-		return (0);
-	if (map[y][x + 1] || !map[y][x - 1] || !map[y + 1][x] || !map[y - 1][x] || map[y][x] == 'A')
-		return (0);
-	map[y][x] = 'A';
-	check_game_com(map, x - 1, y);
-	check_game_com(map, x + 1, y);
-	check_game_com(map, x, y - 1);
-	check_game_com(map, x, y + 1);
+	i = 0;
+	j = 0;
+	while (map->c_map[i])
+	{
+		if (map->c_map[i][j] != '1' || map->c_map[i][j] != 'E'
+			|| map->c_map[i][j] != 'N' || map->c_map[i][j] != 'W'
+				|| map->c_map[i][j] != 'S' || map->c_map[i][j] != ' ')
+				return(1);
+		i++;
+	}
+	i = 0;
+	while (map->c_map[i])
+	{
 
-	return (1);
+			if(map->c_map[i][map->max_row - 1] != '1' || map->c_map[i][map->max_row - 1] != 'W')
+				return (1);
+		i++;
+	}
+	i = 1;
+	while (map->c_map[i + 1])
+	{
+		j = 1;
+		while(map->c_map[i][j])
+		{
+			if (map->c_map[i][j] == 0)
+			{
+				if (map->c_map[i][j + 1] == 'W' || map->c_map[i][j + 1] == ' ' ||
+					map->c_map[i][j - 1] == 'W' || map->c_map[i][j - 1] == ' ' ||
+						map->c_map[i + 1][j] == 'W' || map->c_map[i + 1][j] == ' ' ||
+							map->c_map[i - 1][j] == 'W' || map->c_map[i - 1][j] == ' ')
+							return (1);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
 
-// int	f_map(char **map)
-// {
-// 	int a;
-// 	int b;
-
-// 	a = 0;
-// 	while (map[a])
-// 	{
-// 		b = 0;
-// 		while (map[a][b])
-// 		{
-// }
 
 int all_check(char **map)
 {
@@ -212,13 +220,13 @@ int	validation(char *argv, t_mapdata *player)
 		return (-1);
 	if(copy_map1(player))
 		return (-1);
+	if(check_game_com(player->c_map))
+	 	return (-1);
+	
 	print_map(player->c_map);
-	//if (!f_map(player->c_map))
-	//	return (-1);
-	//if(check_game_com(player->c_map, player->ply_x, player->ply_y))
-	//	return (-1);
 	//if (all_check(player->c_map))
 	//	return (-1);
-	//print_map(player->c_map);
+	print_map(player->original_map);
+	free_str(player->c_map);
 	return (0);
 }

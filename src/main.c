@@ -42,8 +42,8 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (ft_putstr_fd("Error\nWrong argument number\n", 2), 1);
 	i = validation(argv[1], &arg);
-	// if (i == -1)
-	// 	return (ft_putstr_fd("Error\n", 2), 1);
+	if (i == -1)
+		return (ft_putstr_fd("Error\n", 2), 1);
 	// arg.mlx = mlx_init();
 	// if (!arg.mlx)
 	// 	return (1);
