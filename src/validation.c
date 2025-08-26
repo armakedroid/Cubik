@@ -53,10 +53,10 @@ char	**map_create(char *argv, int count, t_mapdata *data)
 	int		fd;
 	char	**tmp;
 	char	*line;
+
 	// char	*str;
 	// int		s;
 	// int		l;
-
 	i = -1;
 	// l = 0;
 	// str = NULL;
@@ -143,35 +143,42 @@ int	check_game_com(t_mapdata *map)
 
 	i = 0;
 	j = 0;
+	print_map(map->c_map);
 	while (map->c_map[i])
 	{
-		if (map->c_map[i][j] != '1' || map->c_map[i][j] != 'E'
-			|| map->c_map[i][j] != 'N' || map->c_map[i][j] != 'W'
+		printf("a\n");
+		while (map->c_map[i])
+		{
+			if (map->c_map[i][j] != '1' || map->c_map[i][j] != 'E'
+				|| map->c_map[i][j] != 'N' || map->c_map[i][j] != 'W'
 				|| map->c_map[i][j] != 'S' || map->c_map[i][j] != ' ')
-				return(1);
+				return (1);
+			j++;
+		}
 		i++;
 	}
 	i = 0;
 	while (map->c_map[i])
 	{
-
-			if(map->c_map[i][map->max_row - 1] != '1' || map->c_map[i][map->max_row - 1] != 'W')
-				return (1);
+		if (map->c_map[i][map->max_row - 1] != '1' || map->c_map[i][map->max_row
+			- 1] != 'W')
+			return (1);
 		i++;
 	}
 	i = 1;
 	while (map->c_map[i + 1])
 	{
 		j = 1;
-		while(map->c_map[i][j])
+		while (map->c_map[i][j])
 		{
 			if (map->c_map[i][j] == 0)
 			{
-				if (map->c_map[i][j + 1] == 'W' || map->c_map[i][j + 1] == ' ' ||
-					map->c_map[i][j - 1] == 'W' || map->c_map[i][j - 1] == ' ' ||
-						map->c_map[i + 1][j] == 'W' || map->c_map[i + 1][j] == ' ' ||
-							map->c_map[i - 1][j] == 'W' || map->c_map[i - 1][j] == ' ')
-							return (1);
+				if (map->c_map[i][j + 1] == 'W' || map->c_map[i][j + 1] == ' '
+					|| map->c_map[i][j - 1] == 'W' || map->c_map[i][j
+					- 1] == ' ' || map->c_map[i + 1][j] == 'W' || map->c_map[i
+					+ 1][j] == ' ' || map->c_map[i - 1][j] == 'W'
+					|| map->c_map[i - 1][j] == ' ')
+					return (1);
 			}
 			j++;
 		}
@@ -180,8 +187,7 @@ int	check_game_com(t_mapdata *map)
 	return (0);
 }
 
-
-int all_check(char **map)
+int	all_check(char **map)
 {
 	int	i;
 	int	j;
@@ -218,15 +224,15 @@ int	validation(char *argv, t_mapdata *player)
 		return (-1);
 	if (find_player(player))
 		return (-1);
-	if(copy_map1(player))
+	if (copy_map1(player))
 		return (-1);
-	if(check_game_com(player->c_map))
-	 	return (-1);
-	
-	print_map(player->c_map);
-	//if (all_check(player->c_map))
+
+	// if (check_game_com(player))
+		// return (-1);
+	// print_map(player->c_map);
+	// if (all_check(player->c_map))
 	//	return (-1);
-	print_map(player->original_map);
-	free_str(player->c_map);
+	// print_map(player->original_map);
+	// free_str(player->c_map, 0);
 	return (0);
 }

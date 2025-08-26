@@ -30,7 +30,7 @@ typedef struct s_img_it
 
 typedef struct s_mapdata
 {
-	t_img_it	img_it[4];
+	t_img_it	*img_it[4];
 	void		*mlx;
 	int			max_row;
 	void		*win;
@@ -40,7 +40,7 @@ typedef struct s_mapdata
 	int			ply_x;
 	int			ply_y;
 	char		**mapdata;
-	char 		**c_map;
+	char		**c_map;
 	char		**original_map;
 	int			map_x;
 	int			map_y;
@@ -54,8 +54,11 @@ typedef struct s_mapdata
 	int			F_line;
 	int			C_line;
 	float		rot_speed;
-	int			dirX;
-	int			dirY;
+	float		move_speed;
+	double		dir_x;
+	double		dir_y;
+	double		plane_y;
+	double		plane_x;
 	int			planeX;
 	int			planeY;
 	int			endian;
@@ -75,12 +78,12 @@ int				find_player(t_mapdata *map);
 char			**map_create(char *argv, int count, t_mapdata *data);
 int				count_av(char *argv, t_mapdata **map);
 int				check_av(char *argv);
-// void			go_forward(t_mapdata *arg);
-// void			go_back(t_mapdata *arg);
-// void			go_left(t_mapdata *arg);
-// void			go_right(t_mapdata *arg);
-// void			rot_left(t_mapdata *data, int rotSpeed);
-// void			rot_right(t_mapdata *data, int rotSpeed);
+void			go_forward(t_mapdata *arg);
+void			go_back(t_mapdata *arg);
+void			go_left(t_mapdata *arg);
+void			go_right(t_mapdata *arg);
+void			rot_left(t_mapdata *data, double rotSpeed);
+void			rot_right(t_mapdata *data, double rotSpeed);
 void			create_map(t_mapdata *data);
 
 #endif
