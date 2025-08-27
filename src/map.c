@@ -9,7 +9,11 @@ void	destroy_imgs(t_mapdata *data)
 	{
 		if (data->img_it[i]->img)
 			mlx_destroy_image(data->mlx, data->img_it[i]->img);
+		free(data->img_it[i]);
+		data->img_it[i] = NULL;
+		i++;
 	}
+	mlx_destroy_image(data->mlx, data->screen.img);
 }
 
 void	all_imgs(t_mapdata *data)
@@ -23,16 +27,16 @@ void	all_imgs(t_mapdata *data)
 		i++;
 	}
 	data->img_it[0]->img = mlx_xpm_file_to_image(data->mlx,
-			ft_strchr(data->mapdata[data->EA_line], ' ') + 2,
+			ft_strchr(data->mapdata[data->ea_line], ' ') + 2,
 			&(data->img_it[0]->width), &(data->img_it[0]->height));
 	data->img_it[1]->img = mlx_xpm_file_to_image(data->mlx,
-			ft_strchr(data->mapdata[data->WE_line], ' ') + 2,
+			ft_strchr(data->mapdata[data->we_line], ' ') + 2,
 			&(data->img_it[1]->width), &(data->img_it[1]->height));
 	data->img_it[2]->img = mlx_xpm_file_to_image(data->mlx,
-			ft_strchr(data->mapdata[data->NO_line], ' ') + 2,
+			ft_strchr(data->mapdata[data->no_line], ' ') + 2,
 			&(data->img_it[2]->width), &(data->img_it[2]->height));
 	data->img_it[3]->img = mlx_xpm_file_to_image(data->mlx,
-			ft_strchr(data->mapdata[data->SO_line], ' ') + 2,
+			ft_strchr(data->mapdata[data->so_line], ' ') + 2,
 			&(data->img_it[3]->width), &(data->img_it[3]->height));
 	i = 0;
 	while (i < 4)
@@ -89,140 +93,76 @@ void	draw_ceil_floor(t_img_it *screen, t_mapdata *data)
 
 	w = data->width;
 	h = data->height;
-	x = w;
-	while (x)
+	x = 0;
+	while (x < w)
 	{
-		y = h / 2;
-		while (y)
+		y = 0;
+		while (y < h / 2)
 		{
 			put_pixel_color(screen, x, y,
-				str_to_rgb(ft_strchr(data->mapdata[data->C_line], ' ') + 1));
-			y--;
+				str_to_rgb(ft_strchr(data->mapdata[data->c_line], ' ') + 1));
+			y++;
 		}
-		x--;
-	}
-	x = w;
-	while (x)
-	{
-		y = h;
-		while (y >= h / 2)
+		while (y < h)
 		{
 			put_pixel_color(screen, x, y,
-				str_to_rgb(ft_strchr(data->mapdata[data->F_line], ' ') + 1));
-			y--;
+				str_to_rgb(ft_strchr(data->mapdata[data->f_line], ' ') + 1));
+			y++;
 		}
-		x--;
+		x++;
 	}
 }
 
-void	draw_from_texture(t_img_it *screen, t_img_it *tex, t_mapdata *data)
+void	draw_from_texture(t_img_it *screen, t_img_it *tex, t_mapdata *data,
+		t_vars_put *vars)
 {
 	int				w;
 	int				h;
 	float			x;
 	float			y;
-	float			i;
 	int				tex_x;
 	int				tex_y;
 	unsigned int	color;
 
-	w = 1920;
-	h = 1080;
-	x = w;
-	i = 0;
-	// while (x > (w / 3) * 2)
-	// {
-	// 	y = h - i;
-	// 	if (y <= i)
-	// 		break ;
-	// 	while (y-- > i)
-	// 	{
-	// 		tex_x = (int)((float)tex->width * (((float)x + data->step_up)
-	// 					/ (float)w));
-	// 		tex_y = (int)((float)tex->height * (((float)y + data->step_around)
-	// 					/ (float)h));
-	// 		if (tex_x >= 0 && tex_x < tex->width && tex_y >= 0
-	// 			&& tex_y < tex->height && x >= 0 && x < screen->width && y >= 0
-	// 			&& y < screen->height)
-	// 		{
-	// 			color = get_pixel_color(tex, tex_x, tex_y);
-	// 			put_pixel_color(screen, x, y, color);
-	// 		}
-	// 	}
-	// 	i += 0.5;
-	// 	x--;
-	// }
-	while (x-- > (w / 3))
+	w = data->width;
+	h = data->height;
+	x = 0;
+	while (x < vars->dst_w)
 	{
-		y = h - i;
-		if (y <= 300)
-			break ;
-		while (y-- > i)
+		y = 0;
+		while (y < vars->dst_h)
 		{
-			tex_x = (int)((float)tex->width * (((float)x + data->step_up)
-						/ (float)w));
-			tex_y = (int)((float)tex->height * (((float)y + data->step_around)
-						/ (float)h));
+			tex_x = x * tex->width / vars->dst_w;
+			tex_y = y * tex->height / vars->dst_h;
 			if (tex_x >= 0 && tex_x < tex->width && tex_y >= 0
 				&& tex_y < tex->height && x >= 0 && x < screen->width && y >= 0
 				&& y < screen->height)
 			{
-				color = 0xFFFFFFF;
-				put_pixel_color(screen, x, y, color);
+				color = get_pixel_color(tex, tex_x, tex_y);
+				put_pixel_color(screen, vars->dst_x + x
+					+ ((data->img_it[vars->i]->width * 4) * vars->i),
+					vars->dst_y + y, color);
 			}
+			y++;
 		}
+		x++;
 	}
-	// while (x--)
-	// {
-	// 	y = h - i;
-	// 	if (y <= 0)
-	// 		break ;
-	// 	while (y-- > i)
-	// 	{
-	// 		tex_x = (int)((float)tex->width * (((float)x + data->step_around)
-	// 					/ (float)w));
-	// 		tex_y = (int)((float)tex->height * (((float)y + data->step_around)
-	// 					/ (float)h));
-	// 		if (tex_x >= 0 && tex_x < tex->width && tex_y >= 0
-	// 			&& tex_y < tex->height && x >= 0 && x < screen->width && y >= 0
-	// 			&& y < screen->height)
-	// 		{
-	// 			color = get_pixel_color(tex, tex_x, tex_y);
-	// 			put_pixel_color(screen, x, y, color);
-	// 		}
-	// 	}
-	// 	i -= 0.5;
-	// }
 }
 
 void	create_map(t_mapdata *data)
 {
-	t_img_it	screen;
-	t_img_it	*wall;
-	int			i;
+	t_vars_put	vars;
 
-	i = 0;
-	wall = NULL;
-	screen.width = data->width;
-	screen.height = data->height;
-	screen.img = mlx_new_image(data->mlx, screen.width, screen.height);
-	screen.addr = mlx_get_data_addr(screen.img, &screen.bits_per_pixel,
-			&screen.line_length, &screen.endian);
-	draw_ceil_floor(&screen, data);
-	mlx_put_image_to_window(data->mlx, data->win, screen.img, 0, 0);
-	mlx_destroy_image(data->mlx, screen.img);
-	// while (i < 4)
-	// {
-		all_imgs(data);
-		screen.width = 1920;
-		screen.height = 1080;
-		screen.img = mlx_new_image(data->mlx, 1920, 1080);
-		screen.addr = mlx_get_data_addr(screen.img, &screen.bits_per_pixel,
-				&screen.line_length, &screen.endian);
-		draw_from_texture(&screen, data->img_it[i], data);
-		mlx_put_image_to_window(data->mlx, data->win, screen.img, 0, 0);
-		mlx_destroy_image(data->mlx, screen.img);
-	// 	i++;
-	// }
-	destroy_imgs(data);
+	vars.i = 0;
+	draw_ceil_floor(&(data->screen), data);
+	while (vars.i < 4)
+	{
+		vars.dst_w = data->img_it[vars.i]->width + data->offset_y;
+		vars.dst_h = data->img_it[vars.i]->height + data->offset_y;
+		vars.dst_x = data->screen.width / 3 - vars.dst_w / 2 + data->offset_x;
+		vars.dst_y = data->screen.height / 2 - vars.dst_h / 2;
+		draw_from_texture(&(data->screen), data->img_it[vars.i], data, &vars);
+		mlx_put_image_to_window(data->mlx, data->win, data->screen.img, 0, 0);
+		(vars.i)++;
+	}
 }

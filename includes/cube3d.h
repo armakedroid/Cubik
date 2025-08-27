@@ -17,6 +17,15 @@
 # define KEY_DOWN 65364
 # define KEY_RIGHT 65363
 
+typedef struct s_vars_put
+{
+	int			dst_x;
+	int			dst_y;
+	int			dst_w;
+	int			dst_h;
+	int			i;
+}				t_vars_put;
+
 typedef struct s_img_it
 {
 	void		*img;
@@ -31,6 +40,7 @@ typedef struct s_img_it
 typedef struct s_mapdata
 {
 	t_img_it	*img_it[4];
+	t_img_it	screen;
 	void		*mlx;
 	int			max_row;
 	void		*win;
@@ -47,20 +57,20 @@ typedef struct s_mapdata
 	int			size_x;
 	int			size_y;
 	int			ply_position;
-	int			SO_line;
-	int			NO_line;
-	int			WE_line;
-	int			EA_line;
-	int			F_line;
-	int			C_line;
+	int			so_line;
+	int			no_line;
+	int			we_line;
+	int			ea_line;
+	int			f_line;
+	int			c_line;
 	float		rot_speed;
 	float		move_speed;
 	double		dir_x;
 	double		dir_y;
 	double		plane_y;
 	double		plane_x;
-	int			planeX;
-	int			planeY;
+	int			offset_x;
+	int			offset_y;
 	int			endian;
 	int			step_up;
 	int			step_around;
@@ -85,5 +95,7 @@ void			go_right(t_mapdata *arg);
 void			rot_left(t_mapdata *data, double rotSpeed);
 void			rot_right(t_mapdata *data, double rotSpeed);
 void			create_map(t_mapdata *data);
+void			all_imgs(t_mapdata *data);
+void			destroy_imgs(t_mapdata *data);
 
 #endif

@@ -80,13 +80,13 @@ char	**map_create(char *argv, int count, t_mapdata *data)
 			|| !ft_strncmp(tmp[i], "SO", 2) || !ft_strncmp(tmp[i], "EA", 2))
 		{
 			if (tmp[i][0] == 'N')
-				data->NO_line = i;
+				data->no_line = i;
 			else if (tmp[i][0] == 'W')
-				data->WE_line = i;
+				data->we_line = i;
 			else if (tmp[i][0] == 'S')
-				data->SO_line = i;
+				data->so_line = i;
 			else if (tmp[i][0] == 'E')
-				data->EA_line = i;
+				data->ea_line = i;
 			// s = 3;
 			// while (tmp[i][s])
 			// 	str[l++] = tmp[i][s++];
@@ -96,9 +96,9 @@ char	**map_create(char *argv, int count, t_mapdata *data)
 		else if (!ft_strncmp(tmp[i], "F", 1) || !ft_strncmp(tmp[i], "C", 1))
 		{
 			if (tmp[i][0] == 'F')
-				data->F_line = i;
+				data->f_line = i;
 			else
-				data->C_line = i;
+				data->c_line = i;
 			// s = 2;
 			// while (tmp[i][s])
 			// 	str[l++] = tmp[i][s++];
@@ -226,10 +226,9 @@ int	validation(char *argv, t_mapdata *player)
 		return (-1);
 	if (copy_map1(player))
 		return (-1);
-
+	print_map(player->c_map);
 	// if (check_game_com(player))
 		// return (-1);
-	// print_map(player->c_map);
 	// if (all_check(player->c_map))
 	//	return (-1);
 	// print_map(player->original_map);
