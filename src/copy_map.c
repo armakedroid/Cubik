@@ -43,20 +43,23 @@ int	copy_map1(t_mapdata *map)
 	int	j;
 	int	a;
 	int	rows;
-	int	w = 0;
-	int h = 0;
+	int	w;
+	int	h;
+
+	w = 0;
+	h = 0;
 	map->max_row = 0;
 	while (map->original_map[w])
 	{
 		h = ft_strlen(map->original_map[w]);
-		if (h  > map->max_row)
+		if (h > map->max_row)
 			map->max_row = h;
 		w++;
 	}
 	rows = 0;
 	while (map->mapdata[rows])
 		rows++;
-	map->c_map = (char **)malloc(sizeof(char *) * (rows - 8 + 1));
+	map->c_map = ft_calloc(sizeof(char *), (rows - 8));
 	if (!map->c_map)
 		return (1);
 	i = 9;
@@ -69,10 +72,16 @@ int	copy_map1(t_mapdata *map)
 		a = 0;
 		while (a < map->max_row)
 		{
-			if (map->mapdata[i][a] && map->mapdata[i][a] != ' ' && map->mapdata[i][a] != '\n')
-				map->c_map[j][a] = map->mapdata[i][a];
-			else
-				map->c_map[j][a] = '-';
+			if (map->mapdata[i])
+			{
+				if ((int)ft_strlen(map->mapdata[i]) <= a)
+					map->c_map[j][a] = '-';
+				else if (map->mapdata[i][a] && map->mapdata[i][a] != ' '
+					&& map->mapdata[i][a] != '\n')
+					map->c_map[j][a] = map->mapdata[i][a];
+				else
+					map->c_map[j][a] = '-';
+			}
 			a++;
 		}
 		map->c_map[j][a] = '\0';
@@ -82,4 +91,3 @@ int	copy_map1(t_mapdata *map)
 	map->c_map[j] = NULL;
 	return (0);
 }
-
