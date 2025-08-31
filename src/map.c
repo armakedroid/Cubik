@@ -149,20 +149,142 @@ void	draw_from_texture(t_img_it *screen, t_img_it *tex, t_mapdata *data,
 	}
 }
 
-void	create_map(t_mapdata *data)
-{
-	t_vars_put	vars;
+// void	create_map(t_mapdata *data)
+// {
+// 	t_vars_put	vars;
 
-	vars.i = 0;
-	draw_ceil_floor(&(data->screen), data);
-	while (vars.i < 4)
-	{
-		vars.dst_w = data->img_it[vars.i]->width + data->offset_y;
-		vars.dst_h = data->img_it[vars.i]->height + data->offset_y;
-		vars.dst_x = data->screen.width / 3 - vars.dst_w / 2 + data->offset_x;
-		vars.dst_y = data->screen.height / 2 - vars.dst_h / 2;
-		draw_from_texture(&(data->screen), data->img_it[vars.i], data, &vars);
-		mlx_put_image_to_window(data->mlx, data->win, data->screen.img, 0, 0);
-		(vars.i)++;
-	}
+// 	vars.i = 0;
+// 	draw_ceil_floor(&(data->screen), data);
+// 	while (vars.i < 4)
+// 	{
+// 		vars.dst_w = data->img_it[vars.i]->width + data->offset_y;
+// 		vars.dst_h = data->img_it[vars.i]->height + data->offset_y;
+// 		vars.dst_x = data->screen.width / 3 - vars.dst_w / 2 + data->offset_x;
+// 		vars.dst_y = data->screen.height / 2 - vars.dst_h / 2;
+// 		draw_from_texture(&(data->screen), data->img_it[vars.i], data, &vars);
+// 		mlx_put_image_to_window(data->mlx, data->win, data->screen.img, 0, 0);
+// 		(vars.i)++;
+// 	}
+// }
+
+void create_map(t_mapdata *data)
+{
+    int x;
+    int y;
+
+    x = 0;
+    while (x < data->width)
+    {
+        double cameraX = 2.0 * x / (double)data->width - 1.0;
+        double rayDirX = data->dir_x + data->plane_x * cameraX;
+        double rayDirY = data->dir_y + data->plane_y * cameraX;
+
+        int mapX = (int)data->ply_x;
+        int mapY = (int)data->ply_y;
+
+        double deltaDistX = fabs(1 / rayDirX);
+        double deltaDistY = fabs(1 / rayDirY);
+        int stepX;
+		if(rayDirX < 0)
+			stepX = -1;
+		else 
+			stepX = 1;
+        int stepY;
+		if(rayDirY < 0)
+			stepY = -1;
+		else
+			stepY = 1;
+        double sideDistX;
+		if (rayDirX < 0)
+			sideDistX = (data->ply_x - mapX) * deltaDistX;
+        else
+			sideDistX = (mapX + 1.0 - data->ply_x) * deltaDistX;
+        double sideDistY;
+		if (rayDirY < 0)
+			sideDistY = (data->ply_y - mapY) * deltaDistY;
+		else
+            sideDistY = (mapY + 1.0 - data->ply_y) * deltaDistY;
+
+        int hit = 0;
+        int side;
+        while (!hit)
+        {
+            if (sideDistX < sideDistY)
+            {
+                sideDistX += deltaDistX;
+                mapX += stepX;
+                side = 0;		
+            }
+            else
+            {
+                sideDistY += deltaDistY;
+                mapY += stepY;
+                side = 1;
+            }
+			if (mapX < 0 || mapX >= data->width || mapY < 0 || mapY >= data->height)
+    		{
+       			hit = 1;
+        		break;
+    		}
+            if (data->mapdata[mapY][mapX] == '1')
+                hit = 1;
+        }
+
+        double perpWallDist;
+			if (side == 0)
+				perpWallDist = (mapX - data->ply_x + (1 - stepX) / 2) / rayDirX;
+            else
+				perpWallDist = (mapY - data->ply_y + (1 - stepY) / 2) / rayDirY;
+
+        int lineHeight = (int)(data->height / perpWallDist);
+        int drawStart = -lineHeight / 2 + data->height / 2;
+        int drawEnd = lineHeight / 2 + data->height / 2;
+        if (drawStart < 0) 
+			drawStart = 0;
+        if (drawEnd >= data->height)
+			drawEnd = data->height - 1;
+
+        int texIndex;
+        if (side == 0)
+            {
+				if (rayDirX > 0)
+					texIndex = 0;
+				else
+					texIndex = 1;
+			}
+        else
+		{
+            if (rayDirY > 0)
+				texIndex = 2;
+			else
+				texIndex = 3;
+		}
+
+        double wallX;
+		if (side == 0)
+			wallX = data->ply_y + perpWallDist * rayDirY;
+		else
+            wallX = data->ply_x + perpWallDist * rayDirX;
+        wallX -= floor(wallX);
+        int texX = (int)(wallX * (double)data->img_it[texIndex]->width);
+        if ((side == 0 && rayDirX > 0) || (side == 1 && rayDirY < 0))
+            texX = data->img_it[texIndex]->width - texX - 1;
+
+        double stepTex = 1.0 * data->img_it[texIndex]->height / lineHeight;
+        double texPos = (drawStart - data->height / 2 + lineHeight / 2) * stepTex;
+
+        y = drawStart;
+        while (y < drawEnd)
+        {
+            int texY = (int)texPos & (data->img_it[texIndex]->height - 1);
+            texPos += stepTex;
+            unsigned int color = get_pixel_color(data->img_it[texIndex], texX, texY);
+            if (side == 1) color = color / 2;
+            put_pixel_color(&data->screen, x, y, color);
+            y++;
+        }
+        x++;
+    }
+    mlx_put_image_to_window(data->mlx, data->win, data->screen.img, 0, 0);
 }
+

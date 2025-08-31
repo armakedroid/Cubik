@@ -77,7 +77,6 @@ typedef struct s_mapdata
 }				t_mapdata;
 
 void			print_map(char **map);
-
 void			ft_putstr_fd(char *s, int fd);
 int				copy_map(t_mapdata *map);
 int				copy_map1(t_mapdata *map);

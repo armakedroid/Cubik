@@ -2,28 +2,28 @@
 
 void	dir_ply_init(t_mapdata *data)
 {
-	if (data->mapdata[data->ply_y][data->ply_x] == 'N')
+	if (data->original_map[data->ply_y][data->ply_x] == 'N')
 	{
 		data->dir_x = 0;
 		data->dir_y = -1;
 		data->plane_x = 0.66;
 		data->plane_y = 0;
 	}
-	else if (data->mapdata[data->ply_y][data->ply_x] == 'S')
+	else if (data->original_map[data->ply_y][data->ply_x] == 'S')
 	{
 		data->dir_x = 0;
 		data->dir_y = 1;
 		data->plane_x = -0.66;
 		data->plane_y = 0;
 	}
-	else if (data->mapdata[data->ply_y][data->ply_x] == 'E')
+	else if (data->original_map[data->ply_y][data->ply_x] == 'E')
 	{
 		data->dir_x = 1;
 		data->dir_y = 0;
 		data->plane_x = 0;
 		data->plane_y = 0.66;
 	}
-	else if (data->mapdata[data->ply_y][data->ply_x] == 'W')
+	else if (data->original_map[data->ply_y][data->ply_x] == 'W')
 	{
 		data->dir_x = -1;
 		data->dir_y = 0;
