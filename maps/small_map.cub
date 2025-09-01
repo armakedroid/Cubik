@@ -1,16 +1,16 @@
-NO ./textures/T_128_N.xpm
-SO ./textures/T_128_S.xpm
-WE ./textures/T_128_W.xpm
-EA ./textures/T_128_E.xpm
+NO ../textures/wall_NO.xpm
+
+SO ../textures/wall_SO.xpm
+WE ../textures/wall_WE.xpm
+EA ../textures/wall_EA.xpm
 
 F 18,53,25
 C 153,204,255
 
-
-11111
-10001
-10001
-10N01
-10001
-10001
-11111
+1111111
+1000001
+1000001
+100E001
+1000001
+1000001
+1111111

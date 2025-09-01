@@ -43,7 +43,7 @@ int	win_close(int keycode, t_mapdata *data)
 	else if (keycode == KEY_A)
 		go_left(data);
 	else if (keycode == KEY_LEFT)
-		rot_left(data, 0.05);
+		rot_left(data, -0.05);
 	else if (keycode == KEY_RIGHT)
 		rot_right(data, 0.05);
 	else if (keycode == KEY_ESC || keycode == KEY_Q)

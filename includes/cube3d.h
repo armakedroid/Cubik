@@ -96,5 +96,6 @@ void			rot_right(t_mapdata *data, double rotSpeed);
 void			create_map(t_mapdata *data);
 void			all_imgs(t_mapdata *data);
 void			destroy_imgs(t_mapdata *data);
+void			draw_ceil_floor(t_img_it *screen, t_mapdata *data);
 
 #endif
