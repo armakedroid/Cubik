@@ -47,15 +47,18 @@ typedef struct s_mapdata
 	int			height;
 	int			width;
 	int			player;
-	int			ply_x;
-	int			ply_y;
+	double		ply_x;
+	double		ply_y;
 	char		**mapdata;
 	char		**c_map;
 	char		**original_map;
+	char		ply_symbol;
 	int			map_x;
 	int			map_y;
 	int			size_x;
 	int			size_y;
+	int			press;
+	int			key[7];
 	int			ply_position;
 	int			so_line;
 	int			no_line;
@@ -69,8 +72,8 @@ typedef struct s_mapdata
 	double		dir_y;
 	double		plane_y;
 	double		plane_x;
-	int			offset_x;
-	int			offset_y;
+	double		offset_x;
+	double		offset_y;
 	int			endian;
 	int			step_up;
 	int			step_around;
@@ -96,6 +99,8 @@ void			rot_right(t_mapdata *data, double rotSpeed);
 void			create_map(t_mapdata *data);
 void			all_imgs(t_mapdata *data);
 void			destroy_imgs(t_mapdata *data);
-void			draw_ceil_floor(t_img_it *screen, t_mapdata *data);
+void			draw_ceil_floor(t_img_it *screen, t_mapdata *data, int x,
+					int draw_start, int draw_end);
+int				move_smwh(t_mapdata *data);
 
 #endif

@@ -4,13 +4,14 @@ void	go_forward(t_mapdata *arg)
 {
 	double	new_x;
 	double	new_y;
+	char	c;
 
-	arg->offset_x += 1;
 	new_y = arg->ply_y + (arg->dir_y * arg->move_speed);
 	new_x = arg->ply_x + (arg->dir_x * arg->move_speed);
-	if (new_x <= 1 || new_y <= 1)
+	if ((int)new_x <= 0 || (int)new_y <= 0)
 		return ;
-	if (arg->original_map[(int)new_y][(int)new_x] == '0')
+	c = arg->original_map[(int)new_y][(int)new_x];
+	if (c == '0' || c == arg->ply_symbol)
 	{
 		arg->ply_x = new_x;
 		arg->ply_y = new_y;
@@ -22,13 +23,14 @@ void	go_back(t_mapdata *arg)
 {
 	double	new_x;
 	double	new_y;
+	char	c;
 
-	arg->offset_x -= 1;
 	new_y = arg->ply_y - (arg->dir_y * arg->move_speed);
 	new_x = arg->ply_x - (arg->dir_x * arg->move_speed);
-	if (new_x <= 1 || new_y <= 1)
+	if ((int)new_x <= 0 || (int)new_y <= 0)
 		return ;
-	if (arg->original_map[(int)new_y][(int)new_x] == '0')
+	c = arg->original_map[(int)new_y][(int)new_x];
+	if (c == '0' || c == arg->ply_symbol)
 	{
 		arg->ply_x = new_x;
 		arg->ply_y = new_y;
@@ -40,13 +42,14 @@ void	go_left(t_mapdata *arg)
 {
 	double	new_x;
 	double	new_y;
+	char	c;
 
-	arg->offset_y -= 1;
 	new_y = arg->ply_y - (arg->plane_y * arg->move_speed);
 	new_x = arg->ply_x - (arg->plane_x * arg->move_speed);
-	if (new_x <= 1 || new_y <= 1)
+	if ((int)new_x <= 0 || (int)new_y <= 0)
 		return ;
-	if (arg->original_map[(int)new_y][(int)new_x] == '0')
+	c = arg->original_map[(int)new_y][(int)new_x];
+	if (c == '0' || c == arg->ply_symbol)
 	{
 		arg->ply_x = new_x;
 		arg->ply_y = new_y;
@@ -58,13 +61,14 @@ void	go_right(t_mapdata *arg)
 {
 	double	new_x;
 	double	new_y;
+	char	c;
 
-	arg->offset_y += 1;
 	new_y = arg->ply_y + (arg->plane_y * arg->move_speed);
 	new_x = arg->ply_x + (arg->plane_x * arg->move_speed);
-	if (new_x <= 1 || new_y <= 1)
+	if ((int)new_x <= 0 || (int)new_y <= 0)
 		return ;
-	if (arg->original_map[(int)new_y][(int)new_x] == '0')
+	c = arg->original_map[(int)new_y][(int)new_x];
+	if (c == '0' || c == arg->ply_symbol)
 	{
 		arg->ply_x = new_x;
 		arg->ply_y = new_y;

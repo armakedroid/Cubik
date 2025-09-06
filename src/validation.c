@@ -128,6 +128,7 @@ int	find_player(t_mapdata *map)
 			{
 				map->ply_x = j;
 				map->ply_y = i;
+				map->ply_symbol = map->original_map[i][j];
 				return (0);
 			}
 			j++;

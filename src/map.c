@@ -84,88 +84,31 @@ void	put_pixel_color(t_img_it *img, int x, int y, unsigned int color)
 	*(unsigned int *)dst = color;
 }
 
-void	draw_ceil_floor(t_img_it *screen, t_mapdata *data)
-{
-	int		w;
-	int		h;
-	float	x;
-	float	y;
-
-	w = data->width;
-	h = data->height;
-	x = 0;
-	while (x < w)
-	{
-		y = 0;
-		while (y < h / 2)
-		{
-			put_pixel_color(screen, x, y,
-				str_to_rgb(ft_strchr(data->mapdata[data->c_line], ' ') + 1));
-			y++;
-		}
-		while (y < h)
-		{
-			put_pixel_color(screen, x, y,
-				str_to_rgb(ft_strchr(data->mapdata[data->f_line], ' ') + 1));
-			y++;
-		}
-		x++;
-	}
-}
-
-void	draw_from_texture(t_img_it *screen, t_img_it *tex, t_mapdata *data,
-		t_vars_put *vars)
+void	draw_ceil_floor(t_img_it *screen, t_mapdata *data, int x,
+		int draw_start, int draw_end)
 {
 	int				w;
 	int				h;
-	float			x;
 	float			y;
-	int				tex_x;
-	int				tex_y;
 	unsigned int	color;
 
 	w = data->width;
 	h = data->height;
-	x = 0;
-	while (x < vars->dst_w)
+	y = 0;
+	color = str_to_rgb(ft_strchr(data->mapdata[data->c_line], ' ') + 1);
+	while (y < draw_start)
 	{
-		y = 0;
-		while (y < vars->dst_h)
-		{
-			tex_x = x * tex->width / vars->dst_w;
-			tex_y = y * tex->height / vars->dst_h;
-			if (tex_x >= 0 && tex_x < tex->width && tex_y >= 0
-				&& tex_y < tex->height && x >= 0 && x < screen->width && y >= 0
-				&& y < screen->height)
-			{
-				color = get_pixel_color(tex, tex_x, tex_y);
-				put_pixel_color(screen, vars->dst_x + x
-					+ ((data->img_it[vars->i]->width * 4) * vars->i),
-					vars->dst_y + y, color);
-			}
-			y++;
-		}
-		x++;
+		put_pixel_color(screen, x, y, color);
+		y++;
+	}
+	y = draw_end;
+	color = str_to_rgb(ft_strchr(data->mapdata[data->f_line], ' ') + 1);
+	while (y < h)
+	{
+		put_pixel_color(screen, x, y, color);
+		y++;
 	}
 }
-
-// void	create_map(t_mapdata *data)
-// {
-// 	t_vars_put	vars;
-
-// 	vars.i = 0;
-// 	draw_ceil_floor(&(data->screen), data);
-// 	while (vars.i < 4)
-// 	{
-// 		vars.dst_w = data->img_it[vars.i]->width + data->offset_y;
-// 		vars.dst_h = data->img_it[vars.i]->height + data->offset_y;
-// 		vars.dst_x = data->screen.width / 3 - vars.dst_w / 2 + data->offset_x;
-// 		vars.dst_y = data->screen.height / 2 - vars.dst_h / 2;
-// 		draw_from_texture(&(data->screen), data->img_it[vars.i], data, &vars);
-// 		mlx_put_image_to_window(data->mlx, data->win, data->screen.img, 0, 0);
-// 		(vars.i)++;
-// 	}
-// }
 
 void	create_map(t_mapdata *data)
 {
@@ -178,18 +121,18 @@ void	create_map(t_mapdata *data)
 	int				mapY;
 	double			deltaDistX;
 	double			deltaDistY;
-		int stepX;
-		int stepY;
-		double sideDistX;
-		double sideDistY;
+	int				stepX;
+	int				stepY;
+	double			sideDistX;
+	double			sideDistY;
 	int				hit;
-		int side;
-		double perpWallDist;
+	int				side;
+	double			perpWallDist;
 	int				lineHeight;
 	int				drawStart;
 	int				drawEnd;
-		int texIndex;
-		double wallX;
+	int				texIndex;
+	double			wallX;
 	int				texX;
 	double			stepTex;
 	double			texPos;
@@ -197,7 +140,6 @@ void	create_map(t_mapdata *data)
 	unsigned int	color;
 
 	x = 0;
-	draw_ceil_floor(&(data->screen), data);
 	while (x < data->width)
 	{
 		cameraX = 2.0 * x / (double)data->width - 1.0;
@@ -244,7 +186,8 @@ void	create_map(t_mapdata *data)
 				hit = 1;
 				break ;
 			}
-			if (data->original_map[mapY][mapX] && data->original_map[mapY][mapX] == '1')
+			if (data->original_map[mapY][mapX]
+				&& data->original_map[mapY][mapX] == '1')
 				hit = 1;
 		}
 		if (side == 0)
@@ -293,7 +236,10 @@ void	create_map(t_mapdata *data)
 			put_pixel_color(&data->screen, x, y, color);
 			y++;
 		}
+		if (x <= data->width && y <= data->height)
+			draw_ceil_floor(&(data->screen), data, x, drawStart, drawEnd);
 		x++;
 	}
-	mlx_put_image_to_window(data->mlx, data->win, data->screen.img, data->offset_x, data->offset_y);
+	mlx_put_image_to_window(data->mlx, data->win, data->screen.img,
+		data->offset_x, data->offset_y);
 }
