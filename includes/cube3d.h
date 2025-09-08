@@ -17,6 +17,16 @@
 # define KEY_DOWN 65364
 # define KEY_RIGHT 65363
 
+typedef struct _s_ut_ut
+{
+	int	i;
+	int	j;
+	int	a;
+	int	rows;
+	int	w;
+	int	h;
+}		t_ut_ut;
+
 typedef struct s_vars_put
 {
 	int				dst_x;
@@ -110,6 +120,7 @@ typedef struct s_create
 	unsigned int	color;
 }					t_create;
 
+int	find_end(t_mapdata *map, int i, int j, int k);
 void				print_map(char **map);
 void				ft_putstr_fd(char *s, int fd);
 int					copy_map(t_mapdata *map);
