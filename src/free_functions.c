@@ -12,16 +12,15 @@ void	free_str(char **str, int count)
 	}
 	while (a < count)
 	{
-		if (str[a])
-			free(str[a]);
+			my_free(str[a]);
 		a++;
 	}
-	if (str)
-		free(str);
+	free(str);
 }
 
 void	my_free(char *str)
 {
 	if (str)
 		free(str);
+	str = NULL;
 }

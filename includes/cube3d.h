@@ -51,6 +51,7 @@ typedef struct s_mapdata
 	double		ply_y;
 	char		**mapdata;
 	char		**c_map;
+	char		**c_map_sp;
 	char		**original_map;
 	char		ply_symbol;
 	int			map_x;
@@ -79,10 +80,43 @@ typedef struct s_mapdata
 	int			step_around;
 }				t_mapdata;
 
+typedef struct s_create
+{
+		int				x;
+	int				y;
+	double			cameraX;
+	double			rayDirX;
+	double			rayDirY;
+	int				mapX;
+	int				mapY;
+	double			deltaDistX;
+	double			deltaDistY;
+	int				stepX;
+	int				stepY;
+	double			sideDistX;
+	double			sideDistY;
+	int				hit;
+	int				side;
+	double			perpWallDist;
+	int				lineHeight;
+	int				drawStart;
+	int				drawEnd;
+	int				texIndex;
+	double			wallX;
+	int				texX;
+	double			stepTex;
+	double			texPos;
+	int				texY;
+	unsigned int	color;
+}				t_create;
+
+
 void			print_map(char **map);
 void			ft_putstr_fd(char *s, int fd);
 int				copy_map(t_mapdata *map);
 int				copy_map1(t_mapdata *map);
+void	arg_mlx(t_mapdata *arg);
+void	dir_ply_init(t_mapdata *data);
 void			free_str(char **str, int count);
 void			my_free(char *str);
 int				validation(char *argv, t_mapdata *player);
@@ -102,5 +136,9 @@ void			destroy_imgs(t_mapdata *data);
 void			draw_ceil_floor(t_img_it *screen, t_mapdata *data, int x,
 					int draw_start, int draw_end);
 int				move_smwh(t_mapdata *data);
+int				win_cl(t_mapdata *data);
+void init(t_mapdata *arg);
+unsigned int	get_pixel_color(t_img_it *tex, int x, int y);
+void	put_pixel_color(t_img_it *img, int x, int y, unsigned int color);
 
 #endif

@@ -1,0 +1,6 @@
+C 112,123,132
+NO ./textures/purplestone.xpm
+F 124,43,32
+WE ./textures/wood.xpm
+SO ./textures/bluestone.xpm
+EA ./textures/redbrick.xpm

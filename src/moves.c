@@ -11,7 +11,7 @@ void	go_forward(t_mapdata *arg)
 	if ((int)new_x <= 0 || (int)new_y <= 0)
 		return ;
 	c = arg->original_map[(int)new_y][(int)new_x];
-	if (c == '0' || c == arg->ply_symbol)
+	if (c == '0' || c == arg->ply_symbol || c == ' ')
 	{
 		arg->ply_x = new_x;
 		arg->ply_y = new_y;
@@ -30,7 +30,7 @@ void	go_back(t_mapdata *arg)
 	if ((int)new_x <= 0 || (int)new_y <= 0)
 		return ;
 	c = arg->original_map[(int)new_y][(int)new_x];
-	if (c == '0' || c == arg->ply_symbol)
+	if (c == '0' || c == arg->ply_symbol || c == ' ')
 	{
 		arg->ply_x = new_x;
 		arg->ply_y = new_y;
@@ -49,7 +49,7 @@ void	go_left(t_mapdata *arg)
 	if ((int)new_x <= 0 || (int)new_y <= 0)
 		return ;
 	c = arg->original_map[(int)new_y][(int)new_x];
-	if (c == '0' || c == arg->ply_symbol)
+	if (c == '0' || c == arg->ply_symbol || c == ' ')
 	{
 		arg->ply_x = new_x;
 		arg->ply_y = new_y;
@@ -68,7 +68,7 @@ void	go_right(t_mapdata *arg)
 	if ((int)new_x <= 0 || (int)new_y <= 0)
 		return ;
 	c = arg->original_map[(int)new_y][(int)new_x];
-	if (c == '0' || c == arg->ply_symbol)
+	if (c == '0' || c == arg->ply_symbol || c == ' ')
 	{
 		arg->ply_x = new_x;
 		arg->ply_y = new_y;
@@ -76,32 +76,16 @@ void	go_right(t_mapdata *arg)
 	return ;
 }
 
-void	rot_left(t_mapdata *data, double rot_speed)
+void arg_mlx(t_mapdata *arg)
 {
-	double	old_dir_x;
-	double	old_plane_x;
-
-	old_dir_x = data->dir_x;
-	old_plane_x = data->plane_x;
-	data->dir_x = data->dir_x * cos(rot_speed) - data->dir_y * sin(rot_speed);
-	data->dir_y = old_dir_x * sin(rot_speed) + data->dir_y * cos(rot_speed);
-	data->plane_x = data->plane_x * cos(rot_speed) - data->plane_y
-		* sin(rot_speed);
-	data->plane_y = old_plane_x * sin(rot_speed) + data->plane_y
-		* cos(rot_speed);
-}
-
-void	rot_right(t_mapdata *data, double rot_speed)
-{
-	double	old_dir_x;
-	double	old_plane_x;
-
-	old_dir_x = data->dir_x;
-	old_plane_x = data->plane_x;
-	data->dir_x = data->dir_x * cos(rot_speed) - data->dir_y * sin(rot_speed);
-	data->dir_y = old_dir_x * sin(rot_speed) + data->dir_y * cos(rot_speed);
-	data->plane_x = data->plane_x * cos(rot_speed) - data->plane_y
-		* sin(rot_speed);
-	data->plane_y = old_plane_x * sin(rot_speed) + data->plane_y
-		* cos(rot_speed);
+	arg->width = 1920;
+	arg->height = 1080;
+	arg->win = mlx_new_window(arg->mlx, arg->width, arg->height, "Cube3D");
+	arg->screen.width = arg->width;
+	arg->screen.height = arg->height;
+	arg->screen.img = mlx_new_image(arg->mlx, arg->screen.width,
+			arg->screen.height);
+	arg->screen.addr = mlx_get_data_addr(arg->screen.img,
+			&(arg->screen.bits_per_pixel), &(arg->screen.line_length),
+			&(arg->screen.endian));
 }

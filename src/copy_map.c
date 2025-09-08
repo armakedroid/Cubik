@@ -37,6 +37,99 @@ int	copy_map(t_mapdata *map)
 	return (0);
 }
 
+int find_end(t_mapdata *map, int i, int j, int k)
+{
+	size_t len;
+
+	if (k == 1)
+	{
+		while (map->c_map[i])
+		{
+			len = ft_strlen(map->c_map[i]);
+			if ((size_t)j >= len || map->c_map[i][j] != '-')
+				break;
+			j++;
+		}
+	}
+	else if (k == 2)
+	{
+		while (map->c_map[i] && j >= 0)
+		{
+			len = ft_strlen(map->c_map[i]);
+			if ((size_t)j >= len || map->c_map[i][j] != '-')
+				break;
+			j--;
+		}
+	}
+	else if (k == 3)
+	{
+		while (i < map->map_y && map->c_map[i])
+		{
+			len = ft_strlen(map->c_map[i]);
+			if ((size_t)j >= len || map->c_map[i][j] != '-')
+				break;
+			i++;
+		}
+	}
+	else if (k == 4)
+	{
+		while (i >= 0 && map->c_map[i])
+		{
+			len = ft_strlen(map->c_map[i]);
+			if ((size_t)j >= len || map->c_map[i][j] != '-')
+				break;
+			i--;
+		}
+	}
+	if (i < 0 || i >= map->map_y || !map->c_map[i])
+		return (1);
+	len = ft_strlen(map->c_map[i]);
+	if (j < 0 || (size_t)j >= len)
+		return (1);
+	return (0);
+}
+
+
+void find_spaces(t_mapdata *map)
+{
+    int i;
+    int j;
+    int start;
+
+    i = 1;
+    while (map->c_map[i + 1])
+    {
+        j = 1;
+        while (map->c_map[i][j])
+        {
+            if (map->c_map[i][j] == '-')
+            {
+                start = j;
+                if (find_end(map, i, j, 1) || find_end(map, i, j, 2) ||
+                    find_end(map, i, j, 3) || find_end(map, i, j, 4))
+                {
+                    j = start + 1;
+                    continue;
+                }
+                else
+                {
+                    j = start;
+                    while (map->c_map[i][j] && map->c_map[i][j] == '-')
+                    {
+                        map->c_map[i][j] = '0';
+                        j++;
+                    }
+                }
+            }
+            else
+                j++;
+        }
+        i++;
+    }
+}
+
+
+
 int	copy_map1(t_mapdata *map)
 {
 	int	i;
@@ -59,7 +152,7 @@ int	copy_map1(t_mapdata *map)
 	rows = 0;
 	while (map->mapdata[rows])
 		rows++;
-	map->c_map = ft_calloc(sizeof(char *), (rows - 8));
+	map->c_map = ft_calloc(sizeof(char *), (rows - 8 + 1));
 	if (!map->c_map)
 		return (1);
 	i = 9;
@@ -89,5 +182,6 @@ int	copy_map1(t_mapdata *map)
 		i++;
 	}
 	map->c_map[j] = NULL;
+	find_spaces(map);
 	return (0);
 }
