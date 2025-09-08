@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   copy_map.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 20:09:33 by apetoyan          #+#    #+#             */
+/*   Updated: 2025/09/08 20:09:34 by apetoyan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cube3d.h"
 
 int	copy_map(t_mapdata *map)
@@ -37,9 +49,9 @@ int	copy_map(t_mapdata *map)
 	return (0);
 }
 
-int find_end(t_mapdata *map, int i, int j, int k)
+int	find_end(t_mapdata *map, int i, int j, int k)
 {
-	size_t len;
+	size_t	len;
 
 	if (k == 1)
 	{
@@ -47,7 +59,7 @@ int find_end(t_mapdata *map, int i, int j, int k)
 		{
 			len = ft_strlen(map->c_map[i]);
 			if ((size_t)j >= len || map->c_map[i][j] != '-')
-				break;
+				break ;
 			j++;
 		}
 	}
@@ -57,7 +69,7 @@ int find_end(t_mapdata *map, int i, int j, int k)
 		{
 			len = ft_strlen(map->c_map[i]);
 			if ((size_t)j >= len || map->c_map[i][j] != '-')
-				break;
+				break ;
 			j--;
 		}
 	}
@@ -67,7 +79,7 @@ int find_end(t_mapdata *map, int i, int j, int k)
 		{
 			len = ft_strlen(map->c_map[i]);
 			if ((size_t)j >= len || map->c_map[i][j] != '-')
-				break;
+				break ;
 			i++;
 		}
 	}
@@ -77,7 +89,7 @@ int find_end(t_mapdata *map, int i, int j, int k)
 		{
 			len = ft_strlen(map->c_map[i]);
 			if ((size_t)j >= len || map->c_map[i][j] != '-')
-				break;
+				break ;
 			i--;
 		}
 	}
@@ -89,46 +101,43 @@ int find_end(t_mapdata *map, int i, int j, int k)
 	return (0);
 }
 
-
-void find_spaces(t_mapdata *map)
+void	find_spaces(t_mapdata *map)
 {
-    int i;
-    int j;
-    int start;
+	int	i;
+	int	j;
+	int	start;
 
-    i = 1;
-    while (map->c_map[i + 1])
-    {
-        j = 1;
-        while (map->c_map[i][j])
-        {
-            if (map->c_map[i][j] == '-')
-            {
-                start = j;
-                if (find_end(map, i, j, 1) || find_end(map, i, j, 2) ||
-                    find_end(map, i, j, 3) || find_end(map, i, j, 4))
-                {
-                    j = start + 1;
-                    continue;
-                }
-                else
-                {
-                    j = start;
-                    while (map->c_map[i][j] && map->c_map[i][j] == '-')
-                    {
-                        map->c_map[i][j] = '0';
-                        j++;
-                    }
-                }
-            }
-            else
-                j++;
-        }
-        i++;
-    }
+	i = 1;
+	while (map->c_map[i + 1])
+	{
+		j = 1;
+		while (map->c_map[i][j])
+		{
+			if (map->c_map[i][j] == '-')
+			{
+				start = j;
+				if (find_end(map, i, j, 1) || find_end(map, i, j, 2)
+					|| find_end(map, i, j, 3) || find_end(map, i, j, 4))
+				{
+					j = start + 1;
+					continue ;
+				}
+				else
+				{
+					j = start;
+					while (map->c_map[i][j] && map->c_map[i][j] == '-')
+					{
+						map->c_map[i][j] = '0';
+						j++;
+					}
+				}
+			}
+			else
+				j++;
+		}
+		i++;
+	}
 }
-
-
 
 int	copy_map1(t_mapdata *map)
 {

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   moves.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 20:12:14 by apetoyan          #+#    #+#             */
+/*   Updated: 2025/09/08 20:12:15 by apetoyan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cube3d.h"
 
 void	go_forward(t_mapdata *arg)
@@ -76,7 +88,7 @@ void	go_right(t_mapdata *arg)
 	return ;
 }
 
-void arg_mlx(t_mapdata *arg)
+void	arg_mlx(t_mapdata *arg)
 {
 	arg->width = 1920;
 	arg->height = 1080;

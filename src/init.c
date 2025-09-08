@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 20:10:23 by apetoyan          #+#    #+#             */
+/*   Updated: 2025/09/08 20:10:24 by apetoyan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cube3d.h"
-void init(t_mapdata *arg)
+
+void	init(t_mapdata *arg)
 {
-    arg->move_speed = 0.05;
+	arg->move_speed = 0.05;
 	arg->press = 0;
 	arg->dir_x = 0;
 	arg->dir_y = 0;

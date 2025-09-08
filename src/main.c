@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 20:10:31 by apetoyan          #+#    #+#             */
+/*   Updated: 2025/09/08 20:10:32 by apetoyan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cube3d.h"
 
 int	win_close(int keycode, t_mapdata *data)
@@ -75,8 +87,8 @@ int	win_cl(t_mapdata *data)
 
 int	main(int argc, char **argv)
 {
-	int i;
-	t_mapdata arg;
+	int			i;
+	t_mapdata	arg;
 
 	init(&arg);
 	if (argc != 2)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 20:10:41 by apetoyan          #+#    #+#             */
+/*   Updated: 2025/09/08 20:11:50 by apetoyan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cube3d.h"
 
 void	destroy_imgs(t_mapdata *data)
@@ -51,8 +63,7 @@ void	put_pixel_color(t_img_it *img, int x, int y, unsigned int color)
 	*(unsigned int *)dst = color;
 }
 
-void	draw_ceil_floor(t_img_it *screen, t_mapdata *data, int x,
-		int draw_start, int draw_end)
+void	draw_ceil_floor(t_img_it *screen, t_mapdata *data, t_create *vars)
 {
 	int				w;
 	int				h;
@@ -63,18 +74,16 @@ void	draw_ceil_floor(t_img_it *screen, t_mapdata *data, int x,
 	h = data->height;
 	y = 0;
 	color = str_to_rgb(ft_strchr(data->mapdata[data->c_line], ' ') + 1);
-	while (y < draw_start)
+	while (y < vars->draw_start)
 	{
-		put_pixel_color(screen, x, y, color);
+		put_pixel_color(screen, vars->x, y, color);
 		y++;
 	}
-	
-	y = draw_end;
+	y = vars->draw_end;
 	color = str_to_rgb(ft_strchr(data->mapdata[data->f_line], ' ') + 1);
 	while (y < h)
 	{
-		put_pixel_color(screen, x, y, color);
+		put_pixel_color(screen, vars->x, y, color);
 		y++;
 	}
-
 }

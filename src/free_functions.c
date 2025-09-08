@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_functions.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 20:10:08 by apetoyan          #+#    #+#             */
+/*   Updated: 2025/09/08 20:10:18 by apetoyan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cube3d.h"
 
 void	free_str(char **str, int count)
@@ -12,7 +24,7 @@ void	free_str(char **str, int count)
 	}
 	while (a < count)
 	{
-			my_free(str[a]);
+		my_free(str[a]);
 		a++;
 	}
 	free(str);
