@@ -19,21 +19,22 @@
 
 typedef struct _s_ut_ut
 {
-	int	i;
-	int	j;
-	int	a;
-	int	rows;
-	int	w;
-	int	h;
-}		t_ut_ut;
+	int				i;
+	int				j;
+	int				a;
+	int				rows;
+	int				w;
+	int				h;
+}					t_ut_ut;
 
 typedef struct s_vars_put
 {
-	int				dst_x;
-	int				dst_y;
-	int				dst_w;
-	int				dst_h;
-	int				i;
+	int				fd;
+	char			**tmp;
+	char			*line;
+	char			*str;
+	int				s;
+	int				l;
 }					t_vars_put;
 
 typedef struct s_img_it
@@ -120,7 +121,7 @@ typedef struct s_create
 	unsigned int	color;
 }					t_create;
 
-int	find_end(t_mapdata *map, int i, int j, int k);
+int					find_end(t_mapdata *map, int i, int j, int k);
 void				print_map(char **map);
 void				ft_putstr_fd(char *s, int fd);
 int					copy_map(t_mapdata *map);

@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 20:09:33 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/08 20:09:34 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/11 22:52:22 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,3 @@ int	find_end(t_mapdata *map, int i, int j, int k)
 		return (1);
 	return (0);
 }
-
