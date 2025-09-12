@@ -189,12 +189,35 @@ int	find_player(t_mapdata *map)
 	return (1);
 }
 
-int	check_game_com(t_mapdata *map)
+int check_game_com_ut(t_mapdata **map, int *i, int *j)
 {
-	int	i;
-	int	j;
 	int	start;
 
+	if ((*map)->c_map[*i][*j] == '-')
+			{
+				start = *j;
+				while ((*map)->c_map[*i][*j] && (*map)->c_map[*i][*j] == '-')
+					(*j)++;
+				if (!((*map)->c_map[*i][*j]))
+				{
+					(*i)++;
+					return (1);
+				}
+				else
+				{
+					(*j) = start;
+					while ((*map)->c_map[*i][*j] && (*map)->c_map[*i][*j] == '-')
+					{
+						(*map)->c_map[*i][*j] = '1';
+						(*j)++;
+					}
+				}
+			}
+			return (0);
+}
+
+int check_game_com_ut1(t_mapdata *map, int *i, int *j)
+{
 	i = 0;
 	j = 0;
 	while (map->c_map[i])
@@ -219,33 +242,25 @@ int	check_game_com(t_mapdata *map)
 			return (1);
 		i++;
 	}
+	return (0);
+}
+
+int	check_game_com(t_mapdata *map)
+{
+	int	i;
+	int	j;
+
+	if(check_game_com_ut1(map, i, j))
+		return (1);
 	i = 1;
 	while (map->c_map[i + 1])
 	{
 		j = 1;
 		while (map->c_map[i][j])
 		{
-			if (map->c_map[i][j] == '-')
-			{
-				start = j;
-				while (map->c_map[i][j] && map->c_map[i][j] == '-')
-					j++;
-				if (!(map->c_map[i][j]))
-				{
-					i++;
-					continue ;
-				}
-				else
-				{
-					j = start;
-					while (map->c_map[i][j] && map->c_map[i][j] == '-')
-					{
-						map->c_map[i][j] = '1';
-						j++;
-					}
-				}
-			}
-			if (map->c_map[i][j] == '0')
+		if(check_game_com_ut(&map, &i, &j))
+			continue;
+		if (map->c_map[i][j] == '0')
 			{
 				if (map->c_map[i][j + 1] == '-' || map->c_map[i][j - 1] == '-'
 					|| map->c_map[i + 1][j] == '-' || map->c_map[i
