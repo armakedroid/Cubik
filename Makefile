@@ -1,7 +1,7 @@
 CC = cc
 SRCS = $(wildcard src/*.c) $(wildcard gnl/*.c) 
 OBJ = $(SRCS:%.c=%.o)
-#CFLGS = -Wall -Wextra -Werror
+CFLGS = -Wall -Wextra -Werror
 MLXFLAGS = -lmlx -Lmlx_linux -Imlx_linux -lXext -lX11 -lm -lz -g3
 LIBFT = libft/libft.a
 NAME = cube3D
@@ -15,7 +15,7 @@ $(NAME): $(OBJ)
 	@$(CC) -o $(NAME) $(OBJ) $(LIBFT) $(MLXFLAGS)
 
 %.o: %.c
-	@$(CC) -c $< -o $@
+	@$(CC) $(CFLGS) -c $< -o $@
 
 clean:
 	@make clean -C libft

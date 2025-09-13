@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 22:52:35 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/11 22:54:50 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/13 21:34:03 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	copy_map1_ut(t_ut_ut *ut, t_mapdata *map)
 			{
 				if ((int)ft_strlen(map->mapdata[ut->i]) <= ut->a)
 					map->c_map[ut->j][ut->a] = '-';
-				else if (map->mapdata[ut->i][ut->a]
+				if (map->mapdata[ut->i][ut->a]
 					&& map->mapdata[ut->i][ut->a] != ' '
 					&& map->mapdata[ut->i][ut->a] != '\n')
 					map->c_map[ut->j][ut->a] = map->mapdata[ut->i][ut->a];

@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 20:10:31 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/08 20:10:32 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:09:17 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,11 @@ int	main(int argc, char **argv)
 		return (ft_putstr_fd("Error\nWrong argument number\n", 2), 1);
 	i = validation(argv[1], &arg);
 	if (i == -1)
+	{
+		free_str(arg.mapdata, 0);
+		free_str(arg.original_map, 0);
 		return (ft_putstr_fd("Error\n", 2), 1);
+	}
 	arg.mlx = mlx_init();
 	if (!arg.mlx)
 		return (1);

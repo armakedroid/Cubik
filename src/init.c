@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 20:10:23 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/08 20:10:24 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:33:54 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	init(t_mapdata *arg)
 	arg->key[4] = 0;
 	arg->key[5] = 0;
 	arg->key[6] = 0;
+	arg->mapdata = NULL;
+	arg->original_map = NULL;
 }
 
 void	dir_p_ew(t_mapdata *data)

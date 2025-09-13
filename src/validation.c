@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 20:12:23 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/11 22:51:40 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/13 21:47:39 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,107 +59,6 @@ int	count_av(char *argv, t_mapdata **map)
 	return (i);
 }
 
-int	map_create_help3(t_vars_put *v, t_mapdata **data, int *i)
-{
-	if (v->tmp[*i][0] == 'F')
-		(*data)->f_line = *i;
-	else
-		(*data)->c_line = *i;
-	v->s = 2;
-	v->str = (char *)malloc(ft_strlen(v->tmp[*i]) - 2 + 1);
-	if (!v->str)
-		return (1);
-	v->l = 0;
-	while (v->tmp[*i][v->s])
-	{
-		v->str[v->l++] = v->tmp[*i][(v->s)++];
-	}
-	v->str[v->l] = '\0';
-	if (!access(v->str, F_OK))
-	{
-		my_free(v->str);
-		return (1);
-	}
-	my_free(v->str);
-	return (0);
-}
-
-int	map_create_help2(t_vars_put *v, t_mapdata **data, int *i)
-{
-	if (v->tmp[*i][0] == 'N')
-		(*data)->no_line = *i;
-	else if (v->tmp[*i][0] == 'W')
-		(*data)->we_line = *i;
-	else if (v->tmp[*i][0] == 'S')
-		(*data)->so_line = *i;
-	else if (v->tmp[*i][0] == 'E')
-		(*data)->ea_line = *i;
-	v->s = 3;
-	v->str = (char *)malloc(ft_strlen(v->tmp[*i]) - 3 + 1);
-	if (!v->str)
-		return (1);
-	v->l = 0;
-	while (v->tmp[*i][v->s])
-		v->str[(v->l)++] = v->tmp[*i][v->s++];
-	v->str[v->l] = '\0';
-	if (!access(v->str, F_OK))
-	{
-		my_free(v->str);
-		return (1);
-	}
-	my_free(v->str);
-	return (0);
-}
-
-int	map_create_help1(t_vars_put *v, t_mapdata **data, int *i, int *count)
-{
-	v->line = get_next_line(v->fd);
-	if (!v->line)
-	{
-		free_str(v->tmp, *count);
-		return (1);
-	}
-	v->tmp[*i] = ft_strtrim(v->line, "\n");
-	if (!v->tmp[*i])
-		return (1);
-	free(v->line);
-	if (!ft_strncmp(v->tmp[*i], "NO", 2) || !ft_strncmp(v->tmp[*i], "WE", 2)
-		|| !ft_strncmp(v->tmp[*i], "SO", 2) || !ft_strncmp(v->tmp[*i], "EA", 2))
-	{
-		if (map_create_help2(v, data, i))
-			return (1);
-	}
-	else if (!ft_strncmp(v->tmp[*i], "F", 1) || !ft_strncmp(v->tmp[*i], "C", 1))
-	{
-		if (map_create_help3(v, data, i))
-			return (1);
-	}
-	return (0);
-}
-
-char	**map_create(char *argv, int count, t_mapdata *data)
-{
-	t_vars_put	vars;
-	int			i;
-
-	i = -1;
-	vars.str = NULL;
-	vars.tmp = (char **)malloc(sizeof(char *) * (count + 1));
-	if (!vars.tmp)
-		return (NULL);
-	vars.fd = open(argv, O_RDONLY);
-	if (vars.fd < 0)
-		return (free_str(vars.tmp, count), NULL);
-	while (++i < count)
-	{
-		if (map_create_help1(&vars, &data, &i, &count))
-			return (NULL);
-	}
-	vars.tmp[i] = NULL;
-	close(vars.fd);
-	return (vars.tmp);
-}
-
 int	find_player(t_mapdata *map)
 {
 	int	i;
@@ -189,86 +88,89 @@ int	find_player(t_mapdata *map)
 	return (1);
 }
 
-int check_game_com_ut(t_mapdata **map, int *i, int *j)
+int	check_rgb(t_mapdata *player)
 {
-	int	start;
+	int	i;
 
-	if ((*map)->c_map[*i][*j] == '-')
-			{
-				start = *j;
-				while ((*map)->c_map[*i][*j] && (*map)->c_map[*i][*j] == '-')
-					(*j)++;
-				if (!((*map)->c_map[*i][*j]))
-				{
-					(*i)++;
-					return (1);
-				}
-				else
-				{
-					(*j) = start;
-					while ((*map)->c_map[*i][*j] && (*map)->c_map[*i][*j] == '-')
-					{
-						(*map)->c_map[*i][*j] = '1';
-						(*j)++;
-					}
-				}
-			}
-			return (0);
-}
-
-int check_game_com_ut1(t_mapdata *map, int *i, int *j)
-{
 	i = 0;
-	j = 0;
-	while (map->c_map[i])
+	while (player->mapdata[i])
 	{
-		j = 0;
-		while (map->c_map[i][j])
+		if (player->mapdata[i][0] != 'F' && player->mapdata[i][0] != 'C')
 		{
-			if (map->c_map[i][j] != '1' && map->c_map[i][j] != 'E'
-				&& map->c_map[i][j] != 'N' && map->c_map[i][j] != 'W'
-				&& map->c_map[i][j] != 'S' && map->c_map[i][j] != ' '
-				&& map->c_map[i][j] != '0' && map->c_map[i][j] != '-')
-				return (1);
-			j++;
+			i++;
+			continue ;
 		}
-		i++;
-	}
-	i = 0;
-	while (map->c_map[i])
-	{
-		if (map->c_map[i][map->max_row - 1] != '1' && map->c_map[i][map->max_row
-			- 1] != '-')
-			return (1);
+		if ((player->mapdata[i][0] == 'F' && player->mapdata[i][1]
+				&& player->mapdata[i][1] != ' ')
+			|| (player->mapdata[i][0] == 'C' && player->mapdata[i][1]
+				&& player->mapdata[i][1] != ' '))
+			return (-1);
+		if (str_to_rgb(player->mapdata[i] + 2) == (unsigned int)INT_MAX
+			+ (INT_MAX / 2) + 1)
+			return (-1);
 		i++;
 	}
 	return (0);
 }
 
-int	check_game_com(t_mapdata *map)
+int	check_var_values(char **map, char *item)
 {
-	int	i;
-	int	j;
+	int				i;
+	unsigned int	len;
+	int				count;
+	char			*str;
 
-	if(check_game_com_ut1(map, i, j))
-		return (1);
-	i = 1;
-	while (map->c_map[i + 1])
+	i = 0;
+	count = 0;
+	len = ft_strlen(item);
+	while (map[i])
 	{
-		j = 1;
-		while (map->c_map[i][j])
+		str = ft_strchr(map[i], item[0]);
+		if (!str)
 		{
-		if(check_game_com_ut(&map, &i, &j))
-			continue;
-		if (map->c_map[i][j] == '0')
-			{
-				if (map->c_map[i][j + 1] == '-' || map->c_map[i][j - 1] == '-'
-					|| map->c_map[i + 1][j] == '-' || map->c_map[i
-					- 1][j] == '-')
-					return (1);
-			}
-			j++;
+			i++;
+			continue ;
 		}
+		if (ft_strlen(str) > len)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+int	check_more_val(char **map, char *item)
+{
+	int				i;
+	int				count;
+	unsigned int	len;
+	int				cmp;
+
+	i = 0;
+	count = 0;
+	len = ft_strlen(item);
+	while (map[i])
+	{
+		cmp = ft_strncmp(map[i], item, len);
+		if (!cmp && map[i][ft_strlen(item)] == ' ')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+int	check_any_cases(t_mapdata *player)
+{
+	char	**str;
+	int		i;
+
+	i = 0;
+	str = (char *[]){"NO", "SO", "WE", "EA", "F", "C", NULL};
+	while (str[i])
+	{
+		if (check_more_val(player->mapdata, str[i]) != 1)
+			return (1);
+		if (!check_var_values(player->mapdata, str[i]))
+			return (1);
 		i++;
 	}
 	return (0);
@@ -288,12 +190,15 @@ int	validation(char *argv, t_mapdata *player)
 		return (-1);
 	if (copy_map(player))
 		return (-1);
-	if (find_player(player))
+	if (find_player(player) || check_any_cases(player))
 		return (-1);
 	if (copy_map1(player))
 		return (-1);
-	if (check_game_com(player))
+	if (check_game_com(player) || check_rgb(player))
+	{
+		free_str(player->c_map, 0);
 		return (-1);
+	}
 	free_str(player->c_map, 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 20:10:41 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/08 20:11:50 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:40:25 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,19 @@ unsigned int	str_to_rgb(const char *str)
 	int				g;
 	int				b;
 
+	if (!str)
+		return ((unsigned int)INT_MAX + (INT_MAX / 2) + 1);
 	parts = ft_split(str, ',');
-	if (!parts)
-		return (0);
+	if (!parts || !(parts[0]) || !(parts[1]) || !(parts[2]))
+		return (free_str(parts, 0), (unsigned int)INT_MAX + (INT_MAX / 2) + 1);
 	r = ft_atoi(parts[0]);
 	g = ft_atoi(parts[1]);
 	b = ft_atoi(parts[2]);
 	color = (r << 16) | (g << 8) | b;
 	free_str(parts, 0);
-	return (color);
+	if ((r >= 0 && r <= 255) && (g >= 0 && g <= 255) && (b >= 0 && b <= 255))
+		return (color);
+	return ((unsigned int)INT_MAX + (INT_MAX / 2) + 1);
 }
 
 unsigned int	get_pixel_color(t_img_it *tex, int x, int y)

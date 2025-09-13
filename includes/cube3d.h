@@ -57,7 +57,6 @@ typedef struct s_mapdata
 	void			*win;
 	int				height;
 	int				width;
-	int				player;
 	double			ply_x;
 	double			ply_y;
 	char			**mapdata;
@@ -67,18 +66,14 @@ typedef struct s_mapdata
 	char			ply_symbol;
 	int				map_x;
 	int				map_y;
-	int				size_x;
-	int				size_y;
 	int				press;
 	int				key[7];
-	int				ply_position;
 	int				so_line;
 	int				no_line;
 	int				we_line;
 	int				ea_line;
 	int				f_line;
 	int				c_line;
-	float			rot_speed;
 	float			move_speed;
 	double			dir_x;
 	double			dir_y;
@@ -86,9 +81,6 @@ typedef struct s_mapdata
 	double			plane_x;
 	double			offset_x;
 	double			offset_y;
-	int				endian;
-	int				step_up;
-	int				step_around;
 }					t_mapdata;
 
 typedef struct s_create
@@ -125,6 +117,7 @@ int					find_end(t_mapdata *map, int i, int j, int k);
 void				print_map(char **map);
 void				ft_putstr_fd(char *s, int fd);
 int					copy_map(t_mapdata *map);
+int					copy_map_help(t_mapdata **map, int *i, int *j, int *a);
 int					copy_map1(t_mapdata *map);
 void				arg_mlx(t_mapdata *arg);
 void				dir_ply_init(t_mapdata *data);
@@ -141,8 +134,8 @@ void				go_left(t_mapdata *arg);
 void				go_right(t_mapdata *arg);
 void				rot_left(t_mapdata *data, double rotSpeed);
 void				rot_right(t_mapdata *data, double rotSpeed);
-void				create_map(t_mapdata *data);
 void				all_imgs(t_mapdata *data);
+unsigned int		str_to_rgb(const char *str);
 void				destroy_imgs(t_mapdata *data);
 void				draw_ceil_floor(t_img_it *screen, t_mapdata *data,
 						t_create *vars);
@@ -158,5 +151,13 @@ void				utils2(t_create **map, t_mapdata *data);
 void				utils4(t_create **map, t_mapdata *data);
 void				utils1(t_create **map, t_mapdata *data);
 void				utils(t_create **map, t_mapdata *data);
+int					find_end(t_mapdata *map, int i, int j, int k);
+void				find_end_1(t_mapdata *map, int *i, int *j, size_t *len);
+void				find_end_2(t_mapdata *map, int *i, int *j, size_t *len);
+void				find_end_3(t_mapdata *map, int *i, int *j, size_t *len);
+void				find_end_4(t_mapdata *map, int *i, int *j, size_t *len);
+int					check_game_com(t_mapdata *map);
+int					check_game_com_ut1(t_mapdata *map, int *i, int *j);
+int					check_game_com_ut(t_mapdata **map, int *i, int *j);
 
 #endif
