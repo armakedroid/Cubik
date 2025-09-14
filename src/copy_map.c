@@ -40,17 +40,20 @@ int	copy_map(t_mapdata *map)
 	int	rows;
 
 	rows = 0;
+	i = 0;
+	j = 0;
 	while (map->mapdata[rows])
 		rows++;
 	if (rows < 8)
 		return (1);
-	map->original_map = (char **)malloc(sizeof(char *) * (rows - 8 + 1));
+	while (map->mapdata[i][j] != '1')
+		i++;
+	map->original_map = (char **)malloc(sizeof(char *) * (rows - i + 1));
 	if (!map->original_map)
 		return (1);
-	i = 9;
-	j = 0;
 	while (map->mapdata[i])
-	{
+	{	map->original_map = (char **)malloc(sizeof(char *) * (rows - i + 1));
+
 		if (copy_map_help(&map, &i, &j, &a))
 			return (1);
 	}

@@ -68,6 +68,20 @@ int	check_game_com_ut1(t_mapdata *map, int *i, int *j)
 	return (0);
 }
 
+int	my_if_fun(t_mapdata *map, int i, int j)
+{
+	if (map->c_map[i][j] == '0' && map->c_map[i][j + 1] && map->c_map[i + 1][j])
+	{
+		if (map->c_map[i][j + 1] == '-' || map->c_map[i][j - 1] == '-'
+			|| map->c_map[i + 1][j] == '-' || map->c_map[i
+			- 1][j] == '-')
+			return (1);
+	}
+	else if (map->c_map[i][j] == '0')
+		return (1);
+	return (0);
+}
+
 int	check_game_com(t_mapdata *map)
 {
 	int	i;
@@ -84,15 +98,12 @@ int	check_game_com(t_mapdata *map)
 			if (check_game_com_ut(&map, &i, &j))
 			{
 				j = 1;
-				continue ;
+				if (map->c_map[i])
+					continue ;
+				break;
 			}
-			if (map->c_map[i][j] == '0')
-			{
-				if (map->c_map[i][j + 1] == '-' || map->c_map[i][j - 1] == '-'
-					|| map->c_map[i + 1][j] == '-' || map->c_map[i
-					- 1][j] == '-')
-					return (1);
-			}
+			if (my_if_fun(map, i, j))
+				return (1);
 			j++;
 		}
 		i++;

@@ -1,8 +1,8 @@
 NO ../textures/NO_Wall.xpm
+EA ../textures/WE_Wall.xpm
 
 SO ../textures/SO_Wall.xpm
 WE ../textures/EA_Wall.xpm
-EA ../textures/WE_Wall.xpm
 
 F 124,45,12
 C 152,100,124
