@@ -57,6 +57,7 @@ typedef struct s_mapdata
 	void			*win;
 	int				height;
 	int				width;
+	int				flag;
 	double			ply_x;
 	double			ply_y;
 	char			**mapdata;
@@ -66,6 +67,8 @@ typedef struct s_mapdata
 	char			ply_symbol;
 	int				map_x;
 	int				map_y;
+	int				map_row;
+	int				map_col;
 	int				press;
 	int				key[7];
 	int				so_line;

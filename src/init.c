@@ -16,6 +16,7 @@ void	init(t_mapdata *arg)
 {
 	arg->move_speed = 0.05;
 	arg->press = 0;
+	arg->flag = 0;
 	arg->dir_x = 0;
 	arg->dir_y = 0;
 	arg->ply_x = 0;

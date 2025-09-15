@@ -61,6 +61,11 @@ int	copy_map1_ut(t_ut_ut *ut, t_mapdata *map)
 {
 	while (map->mapdata[ut->i])
 	{
+		if (map->mapdata[ut->i] && !map->mapdata[ut->i][0])
+		{
+			ut->i++;
+			return (1);
+		}
 		map->c_map[ut->j] = ft_calloc(sizeof(char), (map->max_row + 1));
 		if (!map->c_map[ut->j])
 			return (1);
@@ -103,13 +108,16 @@ int	copy_map1(t_mapdata *map)
 	ut.rows = 0;
 	while (map->mapdata[ut.rows])
 		ut.rows++;
-	map->c_map = ft_calloc(sizeof(char *), (ut.rows - 8 + 1));
+	map->c_map = ft_calloc(sizeof(char *), (map->max_row + 1));
 	if (!map->c_map)
 		return (1);
-	ut.i = 9;
+	ut.i = map->map_col + 1;
 	ut.j = 0;
 	if (copy_map1_ut(&ut, map))
+	{
+		free_str(map->c_map, 0);
 		return (1);
+	}
 	map->c_map[ut.j] = NULL;
 	find_spaces(map);
 	return (0);

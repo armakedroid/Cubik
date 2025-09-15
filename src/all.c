@@ -12,7 +12,7 @@
 
 #include "../includes/cube3d.h"
 
-void	utils(t_create **map, t_mapdata *data)
+void utils(t_create **map, t_mapdata *data)
 {
 	(*map)->map_x = (int)data->ply_x;
 	(*map)->map_y = (int)data->ply_y;
@@ -27,20 +27,16 @@ void	utils(t_create **map, t_mapdata *data)
 	else
 		(*map)->step_y = 1;
 	if ((*map)->ray_dir_x < 0)
-		(*map)->side_dist_x = (data->ply_x - (*map)->map_x)
-			* (*map)->delta_dist_x;
+		(*map)->side_dist_x = (data->ply_x - (*map)->map_x) * (*map)->delta_dist_x;
 	else
-		(*map)->side_dist_x = ((*map)->map_x + 1.0 - data->ply_x)
-			* (*map)->delta_dist_x;
+		(*map)->side_dist_x = ((*map)->map_x + 1.0 - data->ply_x) * (*map)->delta_dist_x;
 	if ((*map)->ray_dir_y < 0)
-		(*map)->side_dist_y = (data->ply_y - (*map)->map_y)
-			* (*map)->delta_dist_y;
+		(*map)->side_dist_y = (data->ply_y - (*map)->map_y) * (*map)->delta_dist_y;
 	else
-		(*map)->side_dist_y = ((*map)->map_y + 1.0 - data->ply_y)
-			* (*map)->delta_dist_y;
+		(*map)->side_dist_y = ((*map)->map_y + 1.0 - data->ply_y) * (*map)->delta_dist_y;
 }
 
-void	utils1(t_create **map, t_mapdata *data)
+void utils1(t_create **map, t_mapdata *data)
 {
 	while (!(*map)->hit)
 	{
@@ -56,40 +52,32 @@ void	utils1(t_create **map, t_mapdata *data)
 			(*map)->map_y += (*map)->step_y;
 			(*map)->side = 1;
 		}
-		if ((*map)->map_x < 0 || (*map)->map_x >= data->width
-			|| (*map)->map_y < 0 || (*map)->map_y >= data->height)
+		if ((*map)->map_x < 0 || (*map)->map_x >= data->width || (*map)->map_y < 0 || (*map)->map_y >= data->height)
 		{
 			(*map)->hit = 1;
-			break ;
+			break;
 		}
-		if (data->original_map[(*map)->map_y][(*map)->map_x]
-			&& data->original_map[(*map)->map_y][(*map)->map_x] == '1')
+		if (data->original_map[(*map)->map_y][(*map)->map_x] && data->original_map[(*map)->map_y][(*map)->map_x] == '1')
 			(*map)->hit = 1;
 	}
 }
 
-void	utils4(t_create **map, t_mapdata *data)
+void utils4(t_create **map, t_mapdata *data)
 {
 	if ((*map)->side == 0)
-		(*map)->wall_x = data->ply_y + (*map)->perp_wall_dist
-			* (*map)->ray_dir_y;
+		(*map)->wall_x = data->ply_y + (*map)->perp_wall_dist * (*map)->ray_dir_y;
 	else
-		(*map)->wall_x = data->ply_x + (*map)->perp_wall_dist
-			* (*map)->ray_dir_x;
+		(*map)->wall_x = data->ply_x + (*map)->perp_wall_dist * (*map)->ray_dir_x;
 	(*map)->wall_x -= floor((*map)->wall_x);
-	(*map)->tex_x = (int)((*map)->wall_x
-			* (double)data->img_it[(*map)->tex_index]->width);
-	if (((*map)->side == 0 && (*map)->ray_dir_x > 0) || ((*map)->side == 1
-			&& (*map)->ray_dir_y < 0))
-		(*map)->tex_x = data->img_it[(*map)->tex_index]->width - (*map)->tex_x
-			- 1;
-	(*map)->step_tex = 1.0 * data->img_it[(*map)->tex_index]->height
-		/ (*map)->line_height;
-	(*map)->tex_pos = ((*map)->draw_start - data->height / 2
-			+ (*map)->line_height / 2) * (*map)->step_tex;
+	(*map)->tex_x = (int)(fmod((*map)->wall_x, 1.0) * (double)data->img_it[(*map)->tex_index]->width);
+	if (((*map)->side == 0 && (*map)->ray_dir_x > 0) || ((*map)->side == 1 && (*map)->ray_dir_y < 0))
+		(*map)->tex_x = data->img_it[(*map)->tex_index]->width - (*map)->tex_x - 1;
+	(*map)->step_tex = 1.0 * data->img_it[(*map)->tex_index]->height / (*map)->line_height;
+	(*map)->tex_pos = ((*map)->draw_start - data->height / 2 + (*map)->line_height / 2) * (*map)->step_tex;
+	(*map)->tex_pos += (*map)->step_tex;
 }
 
-void	utils2(t_create **map, t_mapdata *data)
+void utils2(t_create **map, t_mapdata *data)
 {
 	if ((*map)->side == 0)
 	{
@@ -108,7 +96,7 @@ void	utils2(t_create **map, t_mapdata *data)
 	utils4(map, data);
 }
 
-void	utils3(t_create *map, t_mapdata *data)
+void utils3(t_create *map, t_mapdata *data)
 {
 	map->camera_x = 2.0 * map->x / (double)data->width - 1.0;
 	map->ray_dir_x = data->dir_x + data->plane_x * map->camera_x;
@@ -118,11 +106,9 @@ void	utils3(t_create *map, t_mapdata *data)
 	utils1(&map, data);
 	map->line_height = 0;
 	if (map->side == 0)
-		map->perp_wall_dist = (map->map_x - data->ply_x + (1 - map->step_x) / 2)
-			/ map->ray_dir_x;
+		map->perp_wall_dist = (map->map_x - data->ply_x + (1 - map->step_x) / 2) / map->ray_dir_x;
 	else
-		map->perp_wall_dist = (map->map_y - data->ply_y + (1 - map->step_y) / 2)
-			/ map->ray_dir_y;
+		map->perp_wall_dist = (map->map_y - data->ply_y + (1 - map->step_y) / 2) / map->ray_dir_y;
 	if (map->perp_wall_dist != 0)
 		map->line_height = (int)(data->height / map->perp_wall_dist);
 	else

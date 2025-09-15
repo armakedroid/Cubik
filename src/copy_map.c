@@ -48,12 +48,12 @@ int	copy_map(t_mapdata *map)
 		return (1);
 	while (map->mapdata[i][j] != '1')
 		i++;
+	map->map_col = i;
 	map->original_map = (char **)malloc(sizeof(char *) * (rows - i + 1));
 	if (!map->original_map)
 		return (1);
 	while (map->mapdata[i])
-	{	map->original_map = (char **)malloc(sizeof(char *) * (rows - i + 1));
-
+	{
 		if (copy_map_help(&map, &i, &j, &a))
 			return (1);
 	}
