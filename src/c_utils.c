@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 22:52:35 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/13 21:34:03 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/15 20:29:20 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,36 +57,45 @@ void	find_spaces(t_mapdata *map)
 	}
 }
 
+int	copy_map1_ut_h(t_ut_ut *ut, t_mapdata *map)
+{
+	if (map->mapdata[ut->i] && !map->mapdata[ut->i][0])
+	{
+		ut->i++;
+		return (1);
+	}
+	map->c_map[ut->j] = ft_calloc(sizeof(char *), (map->max_row + 1));
+	if (!map->c_map[ut->j])
+		return (1);
+	ut->a = -1;
+	return (0);
+}
+
 int	copy_map1_ut(t_ut_ut *ut, t_mapdata *map)
 {
-	while (map->mapdata[ut->i])
+	while (map->mapdata[++(ut->i)])
 	{
-		if (map->mapdata[ut->i] && !map->mapdata[ut->i][0])
-		{
-			ut->i++;
+		if (copy_map1_ut_h(ut, map))
 			return (1);
-		}
-		map->c_map[ut->j] = ft_calloc(sizeof(char), (map->max_row + 1));
-		if (!map->c_map[ut->j])
-			return (1);
-		ut->a = -1;
 		while (++(ut->a) < map->max_row)
 		{
 			if (map->mapdata[ut->i])
 			{
 				if ((int)ft_strlen(map->mapdata[ut->i]) <= ut->a)
 					map->c_map[ut->j][ut->a] = '-';
-				if (map->mapdata[ut->i][ut->a]
-					&& map->mapdata[ut->i][ut->a] != ' '
-					&& map->mapdata[ut->i][ut->a] != '\n')
-					map->c_map[ut->j][ut->a] = map->mapdata[ut->i][ut->a];
 				else
-					map->c_map[ut->j][ut->a] = '-';
+				{
+					if (map->mapdata[ut->i][ut->a]
+						&& map->mapdata[ut->i][ut->a] != ' '
+						&& map->mapdata[ut->i][ut->a] != '\n')
+						map->c_map[ut->j][ut->a] = map->mapdata[ut->i][ut->a];
+					else
+						map->c_map[ut->j][ut->a] = '-';
+				}
 			}
 		}
 		map->c_map[ut->j][ut->a] = '\0';
 		ut->j++;
-		ut->i++;
 	}
 	return (0);
 }
@@ -111,13 +120,10 @@ int	copy_map1(t_mapdata *map)
 	map->c_map = ft_calloc(sizeof(char *), (map->max_row + 1));
 	if (!map->c_map)
 		return (1);
-	ut.i = map->map_col + 1;
+	ut.i = map->map_col;
 	ut.j = 0;
 	if (copy_map1_ut(&ut, map))
-	{
-		free_str(map->c_map, 0);
-		return (1);
-	}
+		return (free_str(map->c_map, 0), 1);
 	map->c_map[ut.j] = NULL;
 	find_spaces(map);
 	return (0);

@@ -6,15 +6,15 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 20:12:23 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/13 21:47:39 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:40:21 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube3d.h"
 
-void print_map(char **map)
+void	print_map(char **map)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (map[i])
@@ -24,9 +24,9 @@ void print_map(char **map)
 	}
 }
 
-int check_av(char *argv)
+int	check_av(char *argv)
 {
-	int i;
+	int	i;
 
 	i = ft_strlen(argv) - 4;
 	if (i < 1)
@@ -36,11 +36,11 @@ int check_av(char *argv)
 	return (0);
 }
 
-int count_av(char *argv, t_mapdata **map)
+int	count_av(char *argv, t_mapdata **map)
 {
-	int i;
-	int fd;
-	char *tmp;
+	int		i;
+	int		fd;
+	char	*tmp;
 
 	i = 0;
 	fd = open(argv, O_RDONLY);
@@ -59,11 +59,11 @@ int count_av(char *argv, t_mapdata **map)
 	return (i);
 }
 
-int find_player(t_mapdata *map)
+int	find_player(t_mapdata *map)
 {
-	int i;
-	int j;
-	int count;
+	int	i;
+	int	j;
+	int	count;
 
 	i = -1;
 	count = 0;
@@ -72,7 +72,9 @@ int find_player(t_mapdata *map)
 		j = -1;
 		while (map->original_map[i][++j])
 		{
-			if (map->original_map[i][j] == 'N' || map->original_map[i][j] == 'W' || map->original_map[i][j] == 'S' || map->original_map[i][j] == 'E')
+			if (map->original_map[i][j] == 'N' || map->original_map[i][j] == 'W'
+				|| map->original_map[i][j] == 'S'
+				|| map->original_map[i][j] == 'E')
 			{
 				map->ply_x = (double)j;
 				map->ply_y = (double)i;
@@ -86,9 +88,9 @@ int find_player(t_mapdata *map)
 	return (1);
 }
 
-int validation(char *argv, t_mapdata *player)
+int	validation(char *argv, t_mapdata *player)
 {
-	int count;
+	int	count;
 
 	if (check_av(argv))
 		return (-1);

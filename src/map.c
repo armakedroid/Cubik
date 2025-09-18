@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 20:10:41 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/13 20:40:25 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/15 19:47:43 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,10 @@ void	put_pixel_color(t_img_it *img, int x, int y, unsigned int color)
 
 void	draw_ceil_floor(t_img_it *screen, t_mapdata *data, t_create *vars)
 {
-	int				w;
 	int				h;
 	float			y;
 	unsigned int	color;
 
-	w = data->width;
 	h = data->height;
 	y = 0;
 	color = str_to_rgb(ft_strchr(data->mapdata[data->c_line], ' ') + 1);

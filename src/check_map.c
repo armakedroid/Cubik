@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:54:00 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/13 21:44:26 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/15 19:40:03 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ int	my_if_fun(t_mapdata *map, int i, int j)
 	if (map->c_map[i][j] == '0' && map->c_map[i][j + 1] && map->c_map[i + 1][j])
 	{
 		if (map->c_map[i][j + 1] == '-' || map->c_map[i][j - 1] == '-'
-			|| map->c_map[i + 1][j] == '-' || map->c_map[i
-			- 1][j] == '-')
+			|| map->c_map[i + 1][j] == '-' || map->c_map[i - 1][j] == '-')
 			return (1);
 	}
 	else if (map->c_map[i][j] == '0')
@@ -100,7 +99,7 @@ int	check_game_com(t_mapdata *map)
 				j = 1;
 				if (map->c_map[i])
 					continue ;
-				break;
+				break ;
 			}
 			if (my_if_fun(map, i, j))
 				return (1);

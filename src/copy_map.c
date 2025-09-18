@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 20:09:33 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/13 21:34:59 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:46:44 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	copy_map(t_mapdata *map)
 		rows++;
 	if (rows < 8)
 		return (1);
-	while (map->mapdata[i][j] != '1')
+	while (map->mapdata[i] && map->mapdata[i][j] != '1')
 		i++;
 	map->map_col = i;
 	map->original_map = (char **)malloc(sizeof(char *) * (rows - i + 1));
