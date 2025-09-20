@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 22:52:35 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/15 20:29:20 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/20 20:41:25 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	copy_map1(t_mapdata *map)
 	ut.rows = 0;
 	while (map->mapdata[ut.rows])
 		ut.rows++;
-	map->c_map = ft_calloc(sizeof(char *), (map->max_row + 1));
+	map->c_map = ft_calloc(sizeof(char *), (map->max_row + 2));
 	if (!map->c_map)
 		return (1);
 	ut.i = map->map_col;

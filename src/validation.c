@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 20:12:23 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/18 19:40:21 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/20 20:40:38 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,74 @@ int	find_player(t_mapdata *map)
 	return (1);
 }
 
+int	check_wall_cf(t_mapdata *map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map->c_map[i])
+	{
+		j = 0;
+		if (i == 0 || !map->c_map[i + 1])
+		{
+			while (map->c_map[i][j])
+			{
+				if (map->c_map[i][j] != '1' && map->c_map[i][j] != ' '
+					&& map->c_map[i][j] != '-')
+					return (1);
+				j++;
+			}
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	check_wall_se(t_mapdata *map)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (map->c_map[i + 1])
+	{
+		j = 0;
+		while (map->c_map[i][j] && map->c_map[i][j] == '-')
+			j++;
+		if (map->c_map[i][j] != '1')
+			return (1);
+		while (map->c_map[i][j + 1] && map->c_map[i][j + 1] != '-')
+			j++;
+		if (map->c_map[i][j] != '1')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	check_symb(char **map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != ' '
+				&& map[i][j] != 'N' && map[i][j] != 'E' && map[i][j] != 'W'
+				&& map[i][j] != 'S')
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	validation(char *argv, t_mapdata *player)
 {
 	int	count;
@@ -102,11 +170,13 @@ int	validation(char *argv, t_mapdata *player)
 		return (-1);
 	if (copy_map(player))
 		return (-1);
-	if (find_player(player) || check_any_cases(player))
+	if (find_player(player) || check_any_cases(player)
+		|| check_symb(player->original_map))
 		return (-1);
 	if (copy_map1(player))
 		return (-1);
-	if (check_game_com(player) || check_rgb(player))
+	if (check_game_com(player) || check_rgb(player) || check_wall_cf(player)
+		|| check_wall_se(player))
 	{
 		free_str(player->c_map, 0);
 		return (-1);
