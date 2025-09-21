@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 20:12:23 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/20 20:40:38 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/21 21:27:55 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,7 @@ int	validation(char *argv, t_mapdata *player)
 		return (-1);
 	if (check_game_com(player) || check_rgb(player) || check_wall_cf(player)
 		|| check_wall_se(player))
-	{
-		free_str(player->c_map, 0);
-		return (-1);
-	}
+		return (free_str(player->c_map, 0), -1);
 	free_str(player->c_map, 0);
 	return (0);
 }

@@ -4,7 +4,7 @@ OBJ = $(SRCS:%.c=%.o)
 CFLGS = -Wall -Wextra -Werror
 MLXFLAGS = -lmlx -Lmlx_linux -Imlx_linux -lXext -lX11 -lm -lz -g3
 LIBFT = libft/libft.a
-NAME = cube3D
+NAME = cub3D
 RM = rm -rf
 
 all: $(NAME)

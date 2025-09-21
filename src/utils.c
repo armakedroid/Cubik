@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: argharag <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 15:08:27 by argharag          #+#    #+#             */
-/*   Updated: 2025/09/14 15:08:28 by argharag         ###   ########.fr       */
+/*   Updated: 2025/09/21 21:16:31 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	check_rgb(t_mapdata *player)
 			continue ;
 		}
 		if ((player->mapdata[i][0] == 'F' && player->mapdata[i][1]
-				&& player->mapdata[i][1] != ' ')
+				&& (player->mapdata[i][1] != ' '))
 			|| (player->mapdata[i][0] == 'C' && player->mapdata[i][1]
-				&& player->mapdata[i][1] != ' '))
+				&& (player->mapdata[i][1] != ' ')))
 			return (-1);
 		if (str_to_rgb(player->mapdata[i] + 2) == (unsigned int)INT_MAX
 			+ (INT_MAX / 2) + 1)
@@ -75,7 +75,7 @@ int	check_more_val(char **map, char *item)
 	while (map[i])
 	{
 		cmp = ft_strncmp(map[i], item, len);
-		if (!cmp && map[i][ft_strlen(item)] == ' ')
+		if (!cmp && (map[i][ft_strlen(item)] == ' '))
 			count++;
 		i++;
 	}
