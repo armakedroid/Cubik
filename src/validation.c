@@ -71,6 +71,7 @@ int	check_wall_se(t_mapdata *map)
 	int	j;
 
 	i = 1;
+
 	while (map->c_map[i + 1])
 	{
 		j = 0;
@@ -111,37 +112,38 @@ int	check_symb(char **map)
 
 int checking_border(t_mapdata *p)
 {
-	int	a;
-	int	b;
-	int	j;
-	int	s;
+    int a;
+    int b;
+    int found_left;
+    int found_right;
 
 	a = (int)p->ply_x;
-	b = (int)p->ply_x;
-	s = 0;
-	j = 0;
-	while (p->original_map[(int)p->ply_y][b])
-	{
-		if(p->original_map[(int)p->ply_y][b] == '1')
-		{
-			s = 1;
-			break;
-		}
-		b--;
-	}
-	while (p->original_map[(int)p->ply_y][a])
-	{
-		if(p->original_map[(int)p->ply_y][a] == '1')
-		{
-			s = 1;
-			break;
-		}
-		a++;
-	}	
-	if (!s)
-		return (1);
-	return (0);
+    b = (int)p->ply_x;
+    found_left = 0;
+    found_right = 0;
+    while (b >= 0)
+    {
+        if (p->original_map[(int)p->ply_y][b] == '1')
+        {
+            found_left = 1;
+            break;
+        }
+        b--;
+    }
+    while (p->original_map[(int)p->ply_y][a])
+    {
+        if (p->original_map[(int)p->ply_y][a] == '1')
+        {
+            found_right = 1;
+            break;
+        }
+        a++;
+    }
+    if (found_left && found_right)
+        return (0);
+    return (1);
 }
+
 
 int	validation(char *argv, t_mapdata *player)
 {
