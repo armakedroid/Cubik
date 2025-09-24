@@ -109,6 +109,40 @@ int	check_symb(char **map)
 	return (0);
 }
 
+int checking_border(t_mapdata *p)
+{
+	int	a;
+	int	b;
+	int	j;
+	int	s;
+
+	a = (int)p->ply_x;
+	b = (int)p->ply_x;
+	s = 0;
+	j = 0;
+	while (p->original_map[(int)p->ply_y][b])
+	{
+		if(p->original_map[(int)p->ply_y][b] == '1')
+		{
+			s = 1;
+			break;
+		}
+		b--;
+	}
+	while (p->original_map[(int)p->ply_y][a])
+	{
+		if(p->original_map[(int)p->ply_y][a] == '1')
+		{
+			s = 1;
+			break;
+		}
+		a++;
+	}	
+	if (!s)
+		return (1);
+	return (0);
+}
+
 int	validation(char *argv, t_mapdata *player)
 {
 	int	count;
@@ -130,6 +164,8 @@ int	validation(char *argv, t_mapdata *player)
 		return (-1);
 	if (check_game_com(player) || check_rgb(player) || check_wall_cf(player)
 		|| check_wall_se(player))
+		return (free_str(player->c_map, 0), -1);
+	if (checking_border(player))
 		return (free_str(player->c_map, 0), -1);
 	free_str(player->c_map, 0);
 	return (0);
