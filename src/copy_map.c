@@ -6,29 +6,11 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 20:09:33 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/21 21:21:17 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/20 20:00:08 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube3d.h"
-
-int	copy_map_help2(t_mapdata **map, t_ut_ut *vars)
-{
-	while ((*map)->mapdata[vars->rows])
-		(vars->rows)++;
-	if (vars->rows < 8)
-		return (1);
-	while ((*map)->mapdata[vars->i])
-	{
-		if ((*map)->mapdata[vars->i][vars->j] == ' '
-			|| (*map)->mapdata[vars->i][vars->j] == '1')
-			break ;
-		(vars->i)++;
-	}
-	(*map)->map_col = vars->i - 1;
-	vars->w = vars->rows - 1;
-	return (0);
-}
 
 int	copy_map_help(t_mapdata **map, int *i, int *j, int *a)
 {
@@ -52,29 +34,64 @@ int	copy_map_help(t_mapdata **map, int *i, int *j, int *a)
 
 int	copy_map(t_mapdata *map)
 {
-	t_ut_ut	vars;
+	int	i;
+	int	j;
+	int	a;
+	int	rows;
 
-	vars.rows = 0;
-	vars.i = 0;
-	vars.j = 0;
-	if (copy_map_help2(&map, &vars))
+	rows = 0;
+	i = 0;
+	j = 0;
+	while (map->mapdata[rows])
+		rows++;
+	if (rows < 8)
 		return (1);
-	while (map->mapdata[vars.w])
+	while (map->mapdata[i])
 	{
-		if ((map->mapdata[vars.w]) && map->mapdata[vars.w][0])
+		if (map->mapdata[i][0] == '\0')
+		{
+			i++;
+			continue ;
+		}
+		else if (map->mapdata[i][0] == '1')
 			break ;
-		(vars.w)--;
+		while (map->mapdata[i][j] && map->mapdata[i][j] != '1')
+		{
+			
+			j++;
+
+		}
+		if (!(map->mapdata[i][j]))
+		{
+
+			i++;
+			j = 0;
+			continue ;
+		}
+		else
+		{
+			j--;
+			while (j > 0 && map->mapdata[i][j] == ' ')
+				j--;
+			if (map->mapdata[i][j] && (map->mapdata[i][j] == ' ' || map->mapdata[i][j] == '1'))
+			{
+				j = 0;
+				break ;
+			}
+			j = 0;
+		}
+		i++;
 	}
-	if (vars.w == vars.rows - 2)
-		return (1);
-	map->original_map = ft_calloc(sizeof(char *), (vars.w - vars.i + 1));
+	j = 0;
+	map->map_col = i - 1;
+	map->original_map = (char **)malloc(sizeof(char *) * (rows - i + 1));
 	if (!map->original_map)
 		return (1);
-	while (vars.i < vars.w)
+	while (map->mapdata[i])
 	{
-		if (copy_map_help(&map, &(vars.i), &(vars.j), &(vars.a)))
+		if (copy_map_help(&map, &i, &j, &a))
 			return (1);
 	}
-	map->original_map[vars.j] = NULL;
+	map->original_map[j] = NULL;
 	return (0);
 }

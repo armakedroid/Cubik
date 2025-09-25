@@ -6,17 +6,16 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 22:52:35 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/21 21:27:48 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/20 20:41:25 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube3d.h"
 
-int	if_utils(t_mapdata **map, int *i, int *j, int *start)
+int if_utils(t_mapdata **map, int *i, int *j, int *start)
 {
 	*start = *j;
-	if (find_end(*map, *i, *j, 1) || find_end(*map, *i, *j, 2) || find_end(*map,
-			*i, *j, 3) || find_end(*map, *i, *j, 4))
+	if (find_end(*map, *i, *j, 1) || find_end(*map, *i, *j, 2) || find_end(*map, *i, *j, 3) || find_end(*map, *i, *j, 4))
 	{
 		*j = *start + 1;
 		return (1);
@@ -33,11 +32,11 @@ int	if_utils(t_mapdata **map, int *i, int *j, int *start)
 	return (0);
 }
 
-void	find_spaces(t_mapdata *map)
+void find_spaces(t_mapdata *map)
 {
-	int	i;
-	int	j;
-	int	start;
+	int i;
+	int j;
+	int start;
 
 	i = 1;
 	while (map->c_map[i + 1])
@@ -48,7 +47,7 @@ void	find_spaces(t_mapdata *map)
 			if (map->c_map[i][j] == '-')
 			{
 				if (if_utils(&map, &i, &j, &start))
-					continue ;
+					continue;
 			}
 			else
 				j++;
@@ -57,7 +56,7 @@ void	find_spaces(t_mapdata *map)
 	}
 }
 
-int	copy_map1_ut_h(t_ut_ut *ut, t_mapdata *map)
+int copy_map1_ut_h(t_ut_ut *ut, t_mapdata *map)
 {
 	if (map->mapdata[ut->i] && !map->mapdata[ut->i][0])
 	{
@@ -71,7 +70,7 @@ int	copy_map1_ut_h(t_ut_ut *ut, t_mapdata *map)
 	return (0);
 }
 
-int	copy_map1_ut(t_ut_ut *ut, t_mapdata *map)
+int copy_map1_ut(t_ut_ut *ut, t_mapdata *map)
 {
 	while (map->mapdata[++(ut->i)])
 	{
@@ -85,10 +84,10 @@ int	copy_map1_ut(t_ut_ut *ut, t_mapdata *map)
 					map->c_map[ut->j][ut->a] = '-';
 				else
 				{
-					if (map->mapdata[ut->i][ut->a]
-						&& map->mapdata[ut->i][ut->a] != ' '
-						&& map->mapdata[ut->i][ut->a] != '\n')
+					if (map->mapdata[ut->i][ut->a] && map->mapdata[ut->i][ut->a] != ' ' && map->mapdata[ut->i][ut->a] != '\n')
 						map->c_map[ut->j][ut->a] = map->mapdata[ut->i][ut->a];
+					else if (!map->mapdata[ut->i][ut->a])
+						continue ;
 					else
 						map->c_map[ut->j][ut->a] = '-';
 				}
@@ -100,9 +99,9 @@ int	copy_map1_ut(t_ut_ut *ut, t_mapdata *map)
 	return (0);
 }
 
-int	copy_map1(t_mapdata *map)
+int copy_map1(t_mapdata *map)
 {
-	t_ut_ut	ut;
+	t_ut_ut ut;
 
 	ut.w = 0;
 	ut.h = 0;
@@ -117,7 +116,7 @@ int	copy_map1(t_mapdata *map)
 	ut.rows = 0;
 	while (map->mapdata[ut.rows])
 		ut.rows++;
-	map->c_map = ft_calloc(sizeof(char *), (ut.rows + 2));
+	map->c_map = ft_calloc(sizeof(char *), (map->max_row + 2));
 	if (!map->c_map)
 		return (1);
 	ut.i = map->map_col;

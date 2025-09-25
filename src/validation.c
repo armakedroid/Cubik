@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 20:12:23 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/21 21:27:55 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/20 20:40:38 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	check_wall_se(t_mapdata *map)
 	int	j;
 
 	i = 1;
-
 	while (map->c_map[i + 1])
 	{
 		j = 0;
@@ -110,41 +109,6 @@ int	check_symb(char **map)
 	return (0);
 }
 
-int checking_border(t_mapdata *p)
-{
-    int a;
-    int b;
-    int found_left;
-    int found_right;
-
-	a = (int)p->ply_x;
-    b = (int)p->ply_x;
-    found_left = 0;
-    found_right = 0;
-    while (b >= 0)
-    {
-        if (p->original_map[(int)p->ply_y][b] == '1')
-        {
-            found_left = 1;
-            break;
-        }
-        b--;
-    }
-    while (p->original_map[(int)p->ply_y][a])
-    {
-        if (p->original_map[(int)p->ply_y][a] == '1')
-        {
-            found_right = 1;
-            break;
-        }
-        a++;
-    }
-    if (found_left && found_right)
-        return (0);
-    return (1);
-}
-
-
 int	validation(char *argv, t_mapdata *player)
 {
 	int	count;
@@ -166,9 +130,10 @@ int	validation(char *argv, t_mapdata *player)
 		return (-1);
 	if (check_game_com(player) || check_rgb(player) || check_wall_cf(player)
 		|| check_wall_se(player))
-		return (free_str(player->c_map, 0), -1);
-	if (checking_border(player))
-		return (free_str(player->c_map, 0), -1);
+	{
+		free_str(player->c_map, 0);
+		return (-1);
+	}
 	free_str(player->c_map, 0);
 	return (0);
 }
