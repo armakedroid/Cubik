@@ -6,7 +6,7 @@
 /*   By: apetoyan <apetoyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 20:09:33 by apetoyan          #+#    #+#             */
-/*   Updated: 2025/09/20 20:00:08 by apetoyan         ###   ########.fr       */
+/*   Updated: 2025/09/26 19:06:03 by apetoyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,49 @@ int	copy_map_help(t_mapdata **map, int *i, int *j, int *a)
 	return (0);
 }
 
+int	copy_map_help21(t_mapdata **map, int *i, int *j)
+{
+	(*j)--;
+	while (*j > 0 && (*map)->mapdata[*i][*j] == ' ')
+		(*j)--;
+	if ((*map)->mapdata[*i][*j] && ((*map)->mapdata[*i][*j] == ' '
+			|| (*map)->mapdata[*i][*j] == '1'))
+	{
+		*j = 0;
+		return (1);
+	}
+	*j = 0;
+	return (0);
+}
+
+void	copy_map_help2(t_mapdata **map, int *i, int *j)
+{
+	while ((*map)->mapdata[*i])
+	{
+		if ((*map)->mapdata[*i][0] == '\0')
+		{
+			(*i)++;
+			continue ;
+		}
+		else if ((*map)->mapdata[*i][0] == '1')
+			break ;
+		while ((*map)->mapdata[*i][*j] && (*map)->mapdata[*i][*j] != '1')
+			(*j)++;
+		if (!((*map)->mapdata[*i][*j]))
+		{
+			(*i)++;
+			*j = 0;
+			continue ;
+		}
+		else
+		{
+			if (copy_map_help21(map, i, j))
+				break ;
+		}
+		(*i)++;
+	}
+}
+
 int	copy_map(t_mapdata *map)
 {
 	int	i;
@@ -46,42 +89,7 @@ int	copy_map(t_mapdata *map)
 		rows++;
 	if (rows < 8)
 		return (1);
-	while (map->mapdata[i])
-	{
-		if (map->mapdata[i][0] == '\0')
-		{
-			i++;
-			continue ;
-		}
-		else if (map->mapdata[i][0] == '1')
-			break ;
-		while (map->mapdata[i][j] && map->mapdata[i][j] != '1')
-		{
-			
-			j++;
-
-		}
-		if (!(map->mapdata[i][j]))
-		{
-
-			i++;
-			j = 0;
-			continue ;
-		}
-		else
-		{
-			j--;
-			while (j > 0 && map->mapdata[i][j] == ' ')
-				j--;
-			if (map->mapdata[i][j] && (map->mapdata[i][j] == ' ' || map->mapdata[i][j] == '1'))
-			{
-				j = 0;
-				break ;
-			}
-			j = 0;
-		}
-		i++;
-	}
+	copy_map_help2(&map, &i, &j);
 	j = 0;
 	map->map_col = i - 1;
 	map->original_map = (char **)malloc(sizeof(char *) * (rows - i + 1));
