@@ -50,7 +50,55 @@ Your goal is to create a dynamic 3D view inside a maze using **ray-casting**, al
 
 ---
 
-## 📝 Map File Format (`*.cub`)
+- **Textures**:
+  - `NO, SO, WE, EA` → paths to wall textures
+- **Colors**:
+  - `F` → Floor RGB (0–255)
+  - `C` → Ceiling RGB (0–255)
+- **Map**:
+  - Only `0`, `1`, `N/S/E/W`
+  - Must be **closed/surrounded by walls**
+  - Must appear at the end of the file
+  - Spaces are valid inside the map
 
-Example of a minimal `.cub` file:
+---
+
+## 🕹️ Controls
+| Key | Action |
+|-----|--------|
+| W   | Move forward |
+| S   | Move backward |
+| A   | Move left |
+| D   | Move right |
+| ←   | Rotate left |
+| →   | Rotate right |
+| ESC | Exit game |
+
+---
+
+## ⚙️ Requirements
+- Written in **C** following the **Norm**.
+- Use **Libft** if needed.
+- Proper memory management; no leaks.
+- Makefile with rules: `all, clean, fclean, re, bonus`
+- Allowed functions:
+  - `open, close, read, write, printf, malloc, free, perror, strerror, exit`
+  - **math library** (`-lm`)
+  - **gettimeofday()**
+  - **All MiniLibX functions**
+
+---
+
+## 📚 References
+- Original Wolfenstein 3D: [Play Online](http://users.atw.hu/wolf3d/)
+- Ray-casting tutorials and algorithms
+- MiniLibX graphics documentation
+
+---
+
+## 💡 Submission
+- Submit your project in the **Git repository**.
+- Only files in the repo will be graded.
+- Be ready for small modifications during evaluation.
+
 
